@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "remen-abs"
+  },
+  "targets": {
+    "remen-abs": {
+      "hosting": {
+        "default": [
+          "remen-abs"
+        ]
+      }
+    }
   }
 }
