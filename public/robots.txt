@@ -1,0 +1,64 @@
+# REMEN_ABS - 고장 ABS 모듈 재생/수리 전문업체
+# https://www.remen-abs.com
+# 최신 업데이트: 2024-12-19
+
+# 모든 검색엔진 크롤러 허용
+User-agent: *
+Allow: /
+
+# Google 크롤러 최적화
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Google 이미지 크롤러 허용
+User-agent: Googlebot-Image
+Allow: /
+
+# Bing 크롤러 허용
+User-agent: Bingbot
+Allow: /
+
+# Naver 크롤러 최적화 (서치어드바이저 등록용)
+User-agent: Yeti
+Allow: /
+Crawl-delay: 1
+
+# 네이버 추가 크롤러들 허용
+User-agent: Yeti-News
+Allow: /
+
+User-agent: Yeti-Blog
+Allow: /
+
+User-agent: Yeti-Cafe
+Allow: /
+
+User-agent: Yeti-Kin
+Allow: /
+
+# Daum 크롤러 허용
+User-agent: Daumoa
+Allow: /
+
+# 주요 서비스 페이지 크롤링 허용 (SEO 최적화)
+Allow: /products
+Allow: /repair-service
+Allow: /about
+Allow: /contact
+Allow: /privacy
+Allow: /terms
+Allow: /refund-policy
+
+# 관리자 페이지는 크롤링 제한
+Disallow: /admin
+Disallow: /checkout
+Disallow: /order-complete
+Disallow: /order-history
+Disallow: /cart
+
+# Sitemap 위치 명시 (네이버 서치어드바이저 등록용)
+Sitemap: https://www.remen-abs.com/sitemap.xml
+
+# 크롤링 간격 설정 (초)
+Crawl-delay: 1

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
+    
+    <title>동진테크 - 재제조 ABS 전문</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: #f0f0f0;
+        }
+        
+        .brochure-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .page {
+            width: 297mm;
+            height: 210mm;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            page-break-after: always;
+        }
+        
+        .front-page {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+        }
+        
+        .back-page {
+            background: white;
+            color: #1f2937;
+        }
+        
+        .row {
+            display: flex;
+            flex: 1;
+        }
+        
+        .column {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .column:last-child {
+            border-right: none;
+        }
+        
+        .back-page .column {
+            border-right: 1px solid #e5e7eb;
+        }
+        
+        .back-page .column:last-child {
+            border-right: none;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .company-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        .phone {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .email {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .main-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        
+        .main-subtitle {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fbbf24;
+        }
+        
+        .feature {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .feature-icon {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .cta-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #fbbf24;
+        }
+        
+        .service-item {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .service-icon {
+            margin-right: 8px;
+            font-size: 1.3rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #1d4ed8;
+        }
+        
+        .service-detail {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        
+        .symptom-item {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .symptom-icon {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .contact-info {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .contact-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1d4ed8;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .brochure-container {
+                padding: 0;
+                gap: 0;
+            }
+            
+            .page {
+                box-shadow: none;
+                margin: 0;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .brochure-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .page {
+                width: 100%;
+                height: auto;
+                min-height: 210mm;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="brochure-container">
+        <!-- 앞면 -->
+        <div class="page front-page">
+            <div class="row">
+                <div class="column">
+                    <div class="logo">🏭</div>
+                    <div class="company-name">동진테크</div>
+                    <div class="subtitle">재제조 ABS 전문</div>
+                    <div class="phone">📞 032-123-4567</div>
+                    <div class="email">info@remen-abs.com</div>
+                </div>
+                <div class="column">
+                    <div class="main-title">최고 품질의</div>
+                    <div class="main-subtitle">고장 ABS 모듈 수리</div>
+                    <div class="feature">
+                        <span class="feature-icon">✅</span>
+                        <span>20년 전문 기술</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✅</span>
+                        <span>1년 보증 제공</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✅</span>
+                        <span>빠른 배송 (1-2일)</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✅</span>
+                        <span>98% 고객 만족도</span>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="cta-title">무료 상담 신청</div>
+                    <div class="service-item">
+                        <span class="service-icon">🔧</span>
+                        <span>수리</span>
+                    </div>
+                    <div class="service-item">
+                        <span class="service-icon">🔄</span>
+                        <span>재제조</span>
+                    </div>
+                    <div class="service-item">
+                        <span class="service-icon">🚗</span>
+                        <span>교체</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 뒷면 -->
+        <div class="page back-page">
+            <div class="row">
+                <div class="column">
+                    <div class="section-title">🔧 고장 ABS 수리</div>
+                    <div class="service-detail">• 전문 진단 장비 사용</div>
+                    <div class="service-detail">• 상세한 문제점 분석</div>
+                    <div class="service-detail">• 1년 보증 제공</div>
+                    <div class="service-detail">• 품질 검사 완료</div>
+                    <div class="service-detail">• 안전한 포장 발송</div>
+                </div>
+                <div class="column">
+                    <div class="section-title">⚠️ 고장 ABS 증상</div>
+                    <div class="symptom-item">
+                        <span class="symptom-icon">⚠️</span>
+                        <span>ABS 경고등 계속 켜짐</span>
+                    </div>
+                    <div class="symptom-item">
+                        <span class="symptom-icon">⚠️</span>
+                        <span>브레이크 페달 단단함</span>
+                    </div>
+                    <div class="symptom-item">
+                        <span class="symptom-icon">⚠️</span>
+                        <span>급제동 시 ABS 작동 안함</span>
+                    </div>
+                    <div class="symptom-item">
+                        <span class="symptom-icon">⚠️</span>
+                        <span>브레이크 잠김 현상</span>
+                    </div>
+                    <div class="symptom-item">
+                        <span class="symptom-icon">⚠️</span>
+                        <span>브레이크 성능 저하</span>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="contact-title">🏢 동진테크</div>
+                    <div class="contact-info">📍 인천광역시 [주소]</div>
+                    <div class="contact-info">🌐 www.remen-abs.com</div>
+                    <div class="contact-info">📱 QR코드</div>
+                    <div class="contact-info" style="margin-top: 20px;">
+                        <div style="width: 80px; height: 80px; background: #f3f4f6; border: 2px solid #d1d5db; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                            QR
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 인쇄 기능
+        function printBrochure() {
+            window.print();
+        }
+        
+        // 페이지 로드 시 인쇄 안내
+        window.onload = function() {
+            console.log('브로셔가 준비되었습니다. Ctrl+P로 인쇄하세요.');
+        }
+    </script>
+</body>
+</html> 

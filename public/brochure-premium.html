@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
+    
+    <title>동진테크 - 재제조 ABS 전문 브로셔</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: white;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        .page {
+            width: 297mm;
+            height: 210mm;
+            margin: 0;
+            padding: 0;
+            page-break-after: always;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .front-page {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%);
+            color: white;
+            position: relative;
+        }
+        
+        .front-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .back-page {
+            background: white;
+            color: #1f2937;
+        }
+        
+        .row {
+            display: flex;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .column {
+            flex: 1;
+            padding: 12mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+        }
+        
+        .column:last-child {
+            border-right: none;
+        }
+        
+        .back-page .column {
+            border-right: 1px solid #e5e7eb;
+        }
+        
+        .back-page .column:last-child {
+            border-right: none;
+        }
+        
+        .logo-container {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 8mm;
+            margin-bottom: 6mm;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .logo {
+            font-size: 3.5rem;
+            margin-bottom: 4mm;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        
+        .company-name {
+            font-size: 2.4rem;
+            font-weight: 900;
+            margin-bottom: 2mm;
+            background: linear-gradient(45deg, #ffffff, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 6mm;
+            color: #fbbf24;
+        }
+        
+        .contact-info {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 4mm;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .phone {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2mm;
+            color: #fbbf24;
+        }
+        
+        .email {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .main-title {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 3mm;
+            line-height: 1.1;
+            background: linear-gradient(45deg, #ffffff, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .main-subtitle {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 8mm;
+            color: #fbbf24;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .features-container {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 6mm;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .feature {
+            font-size: 1.4rem;
+            margin-bottom: 4mm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 2mm;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .feature-icon {
+            margin-right: 3mm;
+            font-size: 1.6rem;
+            color: #fbbf24;
+        }
+        
+        .cta-container {
+            background: linear-gradient(135deg, rgba(251,191,36,0.2), rgba(251,191,36,0.1));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 8mm;
+            border: 2px solid rgba(251,191,36,0.3);
+        }
+        
+        .cta-title {
+            font-size: 2.4rem;
+            font-weight: 900;
+            margin-bottom: 8mm;
+            color: #fbbf24;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .service-item {
+            font-size: 1.6rem;
+            margin-bottom: 6mm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 3mm;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .service-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .service-icon {
+            margin-right: 4mm;
+            font-size: 1.8rem;
+            color: #fbbf24;
+        }
+        
+        .section-container {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 20px;
+            padding: 8mm;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 8mm;
+            color: #1d4ed8;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3mm;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #1d4ed8, #3b82f6);
+            border-radius: 2px;
+        }
+        
+        .service-detail {
+            font-size: 1.2rem;
+            margin-bottom: 3mm;
+            text-align: left;
+            padding: 2mm;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #1d4ed8;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .symptom-item {
+            font-size: 1.3rem;
+            margin-bottom: 4mm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 12px;
+            padding: 3mm;
+            border: 2px solid #fecaca;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .symptom-icon {
+            margin-right: 4mm;
+            font-size: 1.5rem;
+            color: #ef4444;
+        }
+        
+        .contact-container {
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            border-radius: 20px;
+            padding: 8mm;
+            color: white;
+            box-shadow: 0 8px 25px rgba(29,78,216,0.3);
+        }
+        
+        .contact-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 6mm;
+            color: #fbbf24;
+            text-align: center;
+        }
+        
+        .contact-info-item {
+            font-size: 1.3rem;
+            margin-bottom: 3mm;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 3mm;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .qr-code {
+            width: 30mm;
+            height: 30mm;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 4mm auto;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1d4ed8;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 3px solid #fbbf24;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-element:nth-child(1) {
+            width: 20px;
+            height: 20px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-element:nth-child(2) {
+            width: 15px;
+            height: 15px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .floating-element:nth-child(3) {
+            width: 25px;
+            height: 25px;
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+            
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            
+            .page {
+                page-break-after: always;
+                margin: 0;
+            }
+            
+            .floating-elements {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 앞면 -->
+    <div class="page front-page">
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <div class="logo-container">
+                    <div class="logo">🏭</div>
+                    <div class="company-name">동진테크</div>
+                    <div class="subtitle">재제조 ABS 전문</div>
+                </div>
+                <div class="contact-info">
+                    <div class="phone">📞 032-123-4567</div>
+                    <div class="email">info@remen-abs.com</div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="main-title">최고 품질의</div>
+                <div class="main-subtitle">고장 ABS 모듈 수리</div>
+                <div class="features-container">
+                    <div class="feature">
+                        <span class="feature-icon">✅</span>
+                        <span>20년 전문 기술</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✅</span>
+                        <span>1년 보증 제공</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✅</span>
+                        <span>빠른 배송 (1-2일)</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✅</span>
+                        <span>98% 고객 만족도</span>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="cta-container">
+                    <div class="cta-title">무료 상담 신청</div>
+                    <div class="service-item">
+                        <span class="service-icon">🔧</span>
+                        <span>수리</span>
+                    </div>
+                    <div class="service-item">
+                        <span class="service-icon">🔄</span>
+                        <span>재제조</span>
+                    </div>
+                    <div class="service-item">
+                        <span class="service-icon">🚗</span>
+                        <span>교체</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 뒷면 -->
+    <div class="page back-page">
+        <div class="row">
+            <div class="column">
+                <div class="section-container">
+                    <div class="section-title">🔧 고장 ABS 수리</div>
+                    <div class="service-detail">• 전문 진단 장비 사용</div>
+                    <div class="service-detail">• 상세한 문제점 분석</div>
+                    <div class="service-detail">• 1년 보증 제공</div>
+                    <div class="service-detail">• 품질 검사 완료</div>
+                    <div class="service-detail">• 안전한 포장 발송</div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="section-container">
+                    <div class="section-title">⚠️ 고장 ABS 증상</div>
+                    <div class="symptom-item">
+                        <span class="symptom-icon">⚠️</span>
+                        <span>ABS 경고등 계속 켜짐</span>
+                    </div>
+                    <div class="symptom-item">
+                        <span class="symptom-icon">⚠️</span>
+                        <span>브레이크 페달 단단함</span>
+                    </div>
+                    <div class="symptom-item">
+                        <span class="symptom-icon">⚠️</span>
+                        <span>급제동 시 ABS 작동 안함</span>
+                    </div>
+                    <div class="symptom-item">
+                        <span class="symptom-icon">⚠️</span>
+                        <span>브레이크 잠김 현상</span>
+                    </div>
+                    <div class="symptom-item">
+                        <span class="symptom-icon">⚠️</span>
+                        <span>브레이크 성능 저하</span>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="contact-container">
+                    <div class="contact-title">🏢 동진테크</div>
+                    <div class="contact-info-item">📍 인천광역시 [주소]</div>
+                    <div class="contact-info-item">🌐 www.remen-abs.com</div>
+                    <div class="contact-info-item">📱 QR코드</div>
+                    <div class="qr-code">QR</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Lucide 아이콘 초기화
+        lucide.createIcons();
+        
+        // 페이지 로드 시 인쇄 안내
+        window.onload = function() {
+            console.log('프리미엄 브로셔가 준비되었습니다. Ctrl+P로 인쇄하세요.');
+        }
+    </script>
+</body>
+</html> 
