@@ -1,73 +1,65 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth, connectAuthEmulator } from 'firebase/auth';
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
-import { getStorage, connectStorageEmulator } from 'firebase/storage';
-import { getAnalytics, isSupported } from 'firebase/analytics';
+import { initializeApp, FirebaseApp } from 'firebase/app';
+import { getAuth, connectAuthEmulator, Auth } from 'firebase/auth';
+import { getFirestore, connectFirestoreEmulator, Firestore } from 'firebase/firestore';
+import { getStorage, connectStorageEmulator, FirebaseStorage } from 'firebase/storage';
+import { getAnalytics, isSupported, Analytics } from 'firebase/analytics';
 
-// Firebase 설정 - 환경 변수 또는 기본값 사용
+// Firebase 설정 - 환경 변수만 사용 (보안 강화)
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "AIzaSyDA014dynTk9DEItafujRH0c1k0BPcF2NQ",
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || "remen-abs.firebaseapp.com",
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "remen-abs",
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "remen-abs.firebasestorage.app",
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "520560736384",
-  appId: process.env.REACT_APP_FIREBASE_APP_ID || "1:520560736384:web:5efdcf09721982425d8e65",
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID || "G-L9D6YQQ5PX"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
-// Firebase 앱 초기화 (에러 처리 포함)
-let app;
+// 환경 변수 검증
+if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+  console.error('Firebase 환경 변수가 설정되지 않았습니다. .env 파일을 확인해주세요.');
+  throw new Error('Firebase 환경 변수가 설정되지 않았습니다.');
+}
+
+// Firebase 앱 초기화
+let app: FirebaseApp;
 try {
   app = initializeApp(firebaseConfig);
   console.log('Firebase app initialized successfully');
 } catch (error) {
   console.error('Firebase initialization failed:', error);
-  // 기본 설정으로 재시도
-  const fallbackConfig = {
-    apiKey: "AIzaSyDA014dynTk9DEItafujRH0c1k0BPcF2NQ",
-    authDomain: "remen-abs.firebaseapp.com",
-    projectId: "remen-abs",
-    storageBucket: "remen-abs.firebasestorage.app",
-    messagingSenderId: "520560736384",
-    appId: "1:520560736384:web:5efdcf09721982425d8e65",
-    measurementId: "G-L9D6YQQ5PX"
-  };
-  app = initializeApp(fallbackConfig);
-  console.log('Firebase app initialized with fallback config');
+  throw error;
 }
 
-// Auth 초기화 (에러 처리 포함)
-let auth;
+// Auth 초기화
+let auth: Auth | null = null;
 try {
   auth = getAuth(app);
   console.log('Firebase Auth initialized successfully');
 } catch (error) {
   console.error('Firebase Auth initialization failed:', error);
-  auth = null;
 }
 
-// Firestore 초기화 (에러 처리 포함)
-let db;
+// Firestore 초기화
+let db: Firestore | null = null;
 try {
   db = getFirestore(app);
   console.log('Firestore initialized successfully');
 } catch (error) {
   console.error('Firestore initialization failed:', error);
-  db = null;
 }
 
-// Storage 초기화 (에러 처리 포함)
-let storage;
+// Storage 초기화
+let storage: FirebaseStorage | null = null;
 try {
   storage = getStorage(app);
   console.log('Firebase Storage initialized successfully');
 } catch (error) {
   console.error('Firebase Storage initialization failed:', error);
-  storage = null;
 }
 
 // Analytics는 브라우저 환경에서만 초기화 (비동기)
-let analytics = null;
+let analytics: Analytics | null = null;
 isSupported().then(yes => {
   if (yes) {
     try {

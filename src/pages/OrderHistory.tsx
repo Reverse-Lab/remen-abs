@@ -64,8 +64,12 @@ const OrderHistory: React.FC = () => {
       
       // 간단한 Firebase 연결 테스트
       try {
-        const testDoc = await getDoc(doc(db, 'test', 'connection'));
-        console.log('Firebase connection test:', testDoc.exists() ? 'Success' : 'Success (doc not exists)');
+        if (db) {
+          const testDoc = await getDoc(doc(db, 'test', 'connection'));
+          console.log('Firebase connection test:', testDoc.exists() ? 'Success' : 'Success (doc not exists)');
+        } else {
+          console.log('Firestore not available for connection test');
+        }
       } catch (connectionError) {
         console.error('Firebase connection test failed:', connectionError);
         // 연결 테스트 실패 시에도 계속 진행 (orders 컬렉션 테스트에서 확인)

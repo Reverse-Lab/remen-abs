@@ -48,6 +48,10 @@ export const productService = {
   // 모든 제품 조회
   async getAllProducts(): Promise<Product[]> {
     try {
+      if (!db) {
+        console.error('Firestore not available');
+        return [];
+      }
       const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
       const querySnapshot = await getDocs(q);
       return querySnapshot.docs.map(doc => ({
@@ -63,6 +67,10 @@ export const productService = {
   // 브랜드별 제품 조회
   async getProductsByBrand(brand: string): Promise<Product[]> {
     try {
+      if (!db) {
+        console.error('Firestore not available');
+        return [];
+      }
       const q = query(
         collection(db, 'products'), 
         where('brand', '==', brand),
@@ -82,6 +90,10 @@ export const productService = {
   // 단일 제품 조회
   async getProduct(id: string): Promise<Product | null> {
     try {
+      if (!db) {
+        console.error('Firestore not available');
+        return null;
+      }
       const docRef = doc(db, 'products', id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -97,6 +109,9 @@ export const productService = {
   // 제품 추가
   async addProduct(product: Omit<Product, 'id'>): Promise<string> {
     try {
+      if (!db) {
+        throw new Error('Firestore not available');
+      }
       const docRef = await addDoc(collection(db, 'products'), {
         ...product,
         createdAt: Timestamp.now()
@@ -111,6 +126,9 @@ export const productService = {
   // 제품 수정
   async updateProduct(id: string, product: Partial<Product>): Promise<void> {
     try {
+      if (!db) {
+        throw new Error('Firestore not available');
+      }
       const docRef = doc(db, 'products', id);
       await updateDoc(docRef, product);
     } catch (error) {
@@ -122,6 +140,9 @@ export const productService = {
   // 제품 삭제
   async deleteProduct(id: string): Promise<void> {
     try {
+      if (!db) {
+        throw new Error('Firestore not available');
+      }
       const docRef = doc(db, 'products', id);
       await deleteDoc(docRef);
     } catch (error) {
@@ -133,6 +154,9 @@ export const productService = {
   // 제품 판매완료 상태 업데이트
   async markProductAsSoldOut(productId: string): Promise<void> {
     try {
+      if (!db) {
+        throw new Error('Firestore not available');
+      }
       const docRef = doc(db, 'products', productId);
       await updateDoc(docRef, { 
         soldOut: true,
@@ -162,6 +186,10 @@ export const inquiryService = {
   // 모든 문의 조회
   async getAllInquiries(): Promise<Inquiry[]> {
     try {
+      if (!db) {
+        console.error('Firestore not available');
+        return [];
+      }
       const q = query(collection(db, 'inquiries'), orderBy('createdAt', 'desc'));
       const querySnapshot = await getDocs(q);
       return querySnapshot.docs.map(doc => ({
@@ -177,6 +205,9 @@ export const inquiryService = {
   // 문의 추가
   async addInquiry(inquiry: Omit<Inquiry, 'id' | 'status' | 'createdAt'>): Promise<string> {
     try {
+      if (!db) {
+        throw new Error('Firestore not available');
+      }
       const docRef = await addDoc(collection(db, 'inquiries'), {
         ...inquiry,
         status: 'pending',
@@ -192,6 +223,9 @@ export const inquiryService = {
   // 문의 상태 업데이트
   async updateInquiryStatus(id: string, status: Inquiry['status']): Promise<void> {
     try {
+      if (!db) {
+        throw new Error('Firestore not available');
+      }
       const docRef = doc(db, 'inquiries', id);
       await updateDoc(docRef, { status });
     } catch (error) {
@@ -261,6 +295,11 @@ export const orderService = {
       if (!userId) {
         throw new Error('User ID is required');
       }
+
+      if (!db) {
+        console.error('Firestore not available');
+        return [];
+      }
       
       // 먼저 모든 주문을 가져와서 클라이언트에서 필터링 (임시 해결책)
       try {
@@ -325,6 +364,10 @@ export const orderService = {
   // 모든 주문 내역 조회 (관리자용)
   async getAllOrders(): Promise<Order[]> {
     try {
+      if (!db) {
+        console.error('Firestore not available');
+        return [];
+      }
       const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
       const querySnapshot = await getDocs(q);
       return querySnapshot.docs.map(doc => ({
@@ -340,6 +383,10 @@ export const orderService = {
   // 단일 주문 조회
   async getOrder(orderId: string): Promise<Order | null> {
     try {
+      if (!db) {
+        console.error('Firestore not available');
+        return null;
+      }
       const docRef = doc(db, 'orders', orderId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -355,6 +402,9 @@ export const orderService = {
   // 주문 추가
   async addOrder(order: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
     try {
+      if (!db) {
+        throw new Error('Firestore not available');
+      }
       const now = Timestamp.now();
       const docRef = await addDoc(collection(db, 'orders'), {
         ...order,
@@ -371,6 +421,9 @@ export const orderService = {
   // 주문 상태 업데이트
   async updateOrderStatus(orderId: string, status: Order['status']): Promise<void> {
     try {
+      if (!db) {
+        throw new Error('Firestore not available');
+      }
       const docRef = doc(db, 'orders', orderId);
       await updateDoc(docRef, { 
         status,
@@ -385,6 +438,9 @@ export const orderService = {
   // 주문 삭제
   async deleteOrder(orderId: string): Promise<void> {
     try {
+      if (!db) {
+        throw new Error('Firestore not available');
+      }
       const docRef = doc(db, 'orders', orderId);
       await deleteDoc(docRef);
     } catch (error) {
@@ -399,6 +455,9 @@ export const fileService = {
   // 이미지 업로드
   async uploadImage(file: File, path: string): Promise<string> {
     try {
+      if (!storage) {
+        throw new Error('Firebase Storage not available');
+      }
       const storageRef = ref(storage, path);
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
@@ -412,6 +471,9 @@ export const fileService = {
   // 파일 삭제
   async deleteFile(path: string): Promise<void> {
     try {
+      if (!storage) {
+        throw new Error('Firebase Storage not available');
+      }
       const storageRef = ref(storage, path);
       await deleteObject(storageRef);
     } catch (error) {
@@ -423,6 +485,9 @@ export const fileService = {
   // URL에서 파일 삭제 (Firebase Storage URL을 경로로 변환하여 삭제)
   async deleteFileFromUrl(url: string): Promise<void> {
     try {
+      if (!storage) {
+        throw new Error('Firebase Storage not available');
+      }
       // Firebase Storage URL에서 파일 경로 추출
       const urlObj = new URL(url);
       const pathMatch = urlObj.pathname.match(/\/o\/(.+?)\?/);

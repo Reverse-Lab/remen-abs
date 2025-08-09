@@ -125,13 +125,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const logout = async () => {
-    if (!auth) {
-      console.error('Firebase Auth not available for logout');
-      return;
-    }
-    
     try {
-      await signOut(auth);
+      if (auth) {
+        await signOut(auth);
+      }
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -139,14 +136,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const isAdmin = userProfile?.role === 'admin';
 
+  const value: AuthContextType = {
+    user,
+    userProfile,
+    loading,
+    logout,
+    isAdmin
+  };
+
   return (
-    <AuthContext.Provider value={{
-      user,
-      userProfile,
-      loading,
-      logout,
-      isAdmin
-    }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

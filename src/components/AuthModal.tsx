@@ -32,6 +32,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode, onModeSwit
     setIsLoading(true);
     setError('');
 
+    if (!auth) {
+      setError('Firebase Auth가 초기화되지 않았습니다.');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       if (mode === 'register') {
         await createUserWithEmailAndPassword(auth, email, password);
@@ -70,6 +76,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode, onModeSwit
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     setError('');
+
+    if (!auth) {
+      setError('Firebase Auth가 초기화되지 않았습니다.');
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const provider = new GoogleAuthProvider();
