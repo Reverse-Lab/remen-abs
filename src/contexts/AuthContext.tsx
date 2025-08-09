@@ -39,34 +39,47 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 타임아웃 설정 (5초 후 로딩 완료)
-    const timeoutId = setTimeout(() => {
+    // Firebase Auth가 없으면 바로 로딩 완료
+    if (!auth) {
+      console.log('Firebase Auth not available');
       setLoading(false);
-    }, 5000);
+      return;
+    }
+
+    // 타임아웃 설정 (3초 후 로딩 완료)
+    const timeoutId = setTimeout(() => {
+      console.log('Auth loading timeout - forcing completion');
+      setLoading(false);
+    }, 3000);
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       console.log('Auth state changed:', user?.email);
       setUser(user);
       
-      if (user) {
+      if (user && db) {
         try {
-          // Firestore 연결 타임아웃 설정
+          // Firestore 연결 타임아웃 설정 (2초)
           const profilePromise = getDoc(doc(db, 'users', user.uid));
           const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Firestore timeout')), 3000)
+            setTimeout(() => reject(new Error('Firestore timeout')), 2000)
           );
           
           const userDoc = await Promise.race([profilePromise, timeoutPromise]) as any;
           
-          if (userDoc.exists()) {
+          if (userDoc && userDoc.exists()) {
             console.log('User profile exists:', userDoc.data());
             const profileData = userDoc.data() as UserProfile;
             setUserProfile(profileData);
           } else {
             console.log('User profile does not exist, creating new profile...');
             try {
-              // users 컬렉션의 문서 개수 확인
-              const usersSnapshot = await getDocs(collection(db, 'users'));
+              // users 컬렉션의 문서 개수 확인 (타임아웃 포함)
+              const usersSnapshotPromise = getDocs(collection(db, 'users'));
+              const usersTimeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Users collection timeout')), 2000)
+              );
+              
+              const usersSnapshot = await Promise.race([usersSnapshotPromise, usersTimeoutPromise]) as any;
               const isFirstUser = usersSnapshot.empty;
               console.log('Is first user:', isFirstUser);
               
@@ -79,8 +92,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               };
               console.log('Creating profile:', defaultProfile);
               
-              // Firestore에 저장
-              await setDoc(doc(db, 'users', user.uid), defaultProfile);
+              // Firestore에 저장 (타임아웃 포함)
+              const savePromise = setDoc(doc(db, 'users', user.uid), defaultProfile);
+              const saveTimeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Save profile timeout')), 2000)
+              );
+              
+              await Promise.race([savePromise, saveTimeoutPromise]);
               console.log('Profile saved to Firestore successfully');
               setUserProfile(defaultProfile);
             } catch (profileError) {
@@ -107,6 +125,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const logout = async () => {
+    if (!auth) {
+      console.error('Firebase Auth not available for logout');
+      return;
+    }
+    
     try {
       await signOut(auth);
     } catch (error) {

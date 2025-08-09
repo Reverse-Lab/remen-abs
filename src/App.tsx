@@ -29,6 +29,50 @@ const LoadingSpinner: React.FC = () => (
   </div>
 );
 
+// 에러 바운더리 컴포넌트
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: any) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: any, errorInfo: any) {
+    console.error('App Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex items-center justify-center min-h-screen bg-gray-50">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              페이지를 불러오는 중 문제가 발생했습니다
+            </h1>
+            <p className="text-gray-600 mb-4">
+              잠시 후 다시 시도해주세요.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            >
+              페이지 새로고침
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 const App: React.FC = React.memo(() => {
   // 라우트 설정을 메모이제이션
   const routes = useMemo(() => [
@@ -49,32 +93,34 @@ const App: React.FC = React.memo(() => {
   ], []);
 
   return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <AuthProvider>
-        <CartProvider>
-          <OrderProvider>
-            <Router>
-              <ScrollToTop />
-              <div className="App">
-                <Header />
-                <main>
-                  <Routes>
-                    {routes.map((route) => (
-                      <Route
-                        key={route.path}
-                        path={route.path}
-                        element={route.element}
-                      />
-                    ))}
-                  </Routes>
-                </main>
-                <Footer />
-              </div>
-            </Router>
-          </OrderProvider>
-        </CartProvider>
-      </AuthProvider>
-    </Suspense>
+    <ErrorBoundary>
+      <Suspense fallback={<LoadingSpinner />}>
+        <AuthProvider>
+          <CartProvider>
+            <OrderProvider>
+              <Router>
+                <ScrollToTop />
+                <div className="App">
+                  <Header />
+                  <main>
+                    <Routes>
+                      {routes.map((route) => (
+                        <Route
+                          key={route.path}
+                          path={route.path}
+                          element={route.element}
+                        />
+                      ))}
+                    </Routes>
+                  </main>
+                  <Footer />
+                </div>
+              </Router>
+            </OrderProvider>
+          </CartProvider>
+        </AuthProvider>
+      </Suspense>
+    </ErrorBoundary>
   );
 });
 
