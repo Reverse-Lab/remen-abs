@@ -64,3 +64,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_REMEN_ABS }}'
           channelId: live
           projectId: remen-abs
+          entryPoint: ./

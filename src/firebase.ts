@@ -16,9 +16,22 @@ const firebaseConfig = {
 };
 
 // 환경 변수 검증
-if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
-  console.error('Firebase 환경 변수가 설정되지 않았습니다. .env 파일을 확인해주세요.');
-  throw new Error('Firebase 환경 변수가 설정되지 않았습니다.');
+const missingVars = [];
+if (!firebaseConfig.apiKey) missingVars.push('REACT_APP_FIREBASE_API_KEY');
+if (!firebaseConfig.projectId) missingVars.push('REACT_APP_FIREBASE_PROJECT_ID');
+if (!firebaseConfig.authDomain) missingVars.push('REACT_APP_FIREBASE_AUTH_DOMAIN');
+
+if (missingVars.length > 0) {
+  const errorMsg = `Firebase 환경 변수가 설정되지 않았습니다: ${missingVars.join(', ')}. .env 파일을 확인해주세요.`;
+  console.error(errorMsg);
+  
+  // 프로덕션 빌드에서는 오류 발생 (GitHub Actions 배포 시)
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(errorMsg);
+  }
+  
+  // 개발 환경에서는 경고만 표시하고 계속 진행
+  console.warn('개발 환경에서는 Firebase 기능이 제한될 수 있습니다.');
 }
 
 // Firebase 앱 초기화
