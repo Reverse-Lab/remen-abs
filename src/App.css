@@ -52,6 +52,37 @@ body {
   scroll-padding-top: 64px; /* 헤더 높이만큼 스크롤 패딩 */
 }
 
+/* 텍스트 줄바꿈 개선 */
+* {
+  word-wrap: break-word;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 긴 텍스트 줄바꿈 개선 */
+p, h1, h2, h3, h4, h5, h6, span, div {
+  word-wrap: break-word;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-height: 1.6;
+}
+
+/* 모바일에서 텍스트 줄바꿈 최적화 */
+@media (max-width: 768px) {
+  p, h1, h2, h3, h4, h5, h6, span, div {
+    word-wrap: break-word;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+  }
+  
+  /* 모바일에서 긴 단어 강제 줄바꿈 */
+  .break-words {
+    word-break: break-all;
+    overflow-wrap: break-word;
+  }
+}
+
 /* 모바일에서 스크롤 동작 개선 */
 @media (max-width: 768px) {
   html {

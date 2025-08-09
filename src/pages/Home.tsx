@@ -45,32 +45,32 @@ const Home: React.FC = () => {
               transition={{ duration: 0.8 }}
               className="w-full"
             >
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 break-words">
                 최고 품질의<br />
                 <span className="text-yellow-300">고장 ABS 모듈 수리</span>
               </h1>
-              <p className="text-xl mb-8 text-blue-100">
+              <p className="text-xl mb-8 text-blue-100 break-words">
                 동진테크의 고장 ABS 모듈 재제조/수리로 안전하고 경제적인 주행을 경험하세요.
                 렉서스 등 수입차 전문 고장 ABS 수리 서비스를 제공합니다.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 w-full">
                 <Link
                   to="/products"
-                  className="bg-yellow-400 text-blue-900 px-8 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition-colors inline-flex items-center justify-center"
+                  className="bg-yellow-400 text-blue-900 px-8 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition-colors inline-flex items-center justify-center break-words"
                 >
                   제품 보기
                   <ArrowRight size={20} className="ml-2" />
                 </Link>
                 <Link
                   to="/repair-service"
-                  className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors inline-flex items-center justify-center"
+                  className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors inline-flex items-center justify-center break-words"
                 >
                   수리 서비스
                   <Wrench size={20} className="ml-2" />
                 </Link>
                 <Link
                   to="/contact"
-                  className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition-colors text-center"
+                  className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition-colors text-center break-words"
                 >
                   문의하기
                 </Link>
@@ -84,8 +84,8 @@ const Home: React.FC = () => {
             >
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
                 <div className="text-6xl mb-4">🚗</div>
-                <h3 className="text-2xl font-bold mb-2">전문 재제조</h3>
-                <p className="text-blue-100">자체 세척 및 검사 설비</p>
+                <h3 className="text-2xl font-bold mb-2 break-words">전문 재제조</h3>
+                <p className="text-blue-100 break-words">자체 세척 및 검사 설비</p>
               </div>
             </motion.div>
           </div>
@@ -96,10 +96,10 @@ const Home: React.FC = () => {
       <section className="py-20 bg-gray-50 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="text-center mb-16 w-full">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 break-words">
               왜 REMEN_ABS 고장 ABS 수리를 선택해야 할까요?
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto break-words">
               전문적인 고장 ABS 재제조/수리 기술과 엄격한 품질 관리를 통해 최고의 고장 ABS 모듈을 제공합니다.
             </p>
           </div>
@@ -114,8 +114,8 @@ const Home: React.FC = () => {
               <div className="bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Shield size={32} />
               </div>
-              <h3 className="text-xl font-semibold mb-2">품질 보장</h3>
-              <p className="text-gray-600">엄격한 검사 과정을 통과한 제품만 출고</p>
+              <h3 className="text-xl font-semibold mb-2 break-words">품질 보장</h3>
+              <p className="text-gray-600 break-words">엄격한 검사 과정을 통과한 제품만 출고</p>
             </motion.div>
 
             <motion.div
@@ -127,8 +127,8 @@ const Home: React.FC = () => {
               <div className="bg-green-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Zap size={32} />
               </div>
-              <h3 className="text-xl font-semibold mb-2">빠른 배송</h3>
-              <p className="text-gray-600">주문 후 1-2일 내 배송</p>
+              <h3 className="text-xl font-semibold mb-2 break-words">빠른 배송</h3>
+              <p className="text-gray-600 break-words">주문 후 1-2일 내 배송</p>
             </motion.div>
 
             <motion.div
@@ -140,8 +140,8 @@ const Home: React.FC = () => {
               <div className="bg-yellow-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Award size={32} />
               </div>
-              <h3 className="text-xl font-semibold mb-2">전문 기술</h3>
-              <p className="text-gray-600">20년 이상의 재제조 전문 기술</p>
+              <h3 className="text-xl font-semibold mb-2 break-words">전문 기술</h3>
+              <p className="text-gray-600 break-words">20년 이상의 재제조 전문 기술</p>
             </motion.div>
 
             <motion.div
@@ -153,8 +153,8 @@ const Home: React.FC = () => {
               <div className="bg-purple-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Users size={32} />
               </div>
-              <h3 className="text-xl font-semibold mb-2">고객 만족</h3>
-              <p className="text-gray-600">98% 고객 만족도 달성</p>
+              <h3 className="text-xl font-semibold mb-2 break-words">고객 만족</h3>
+              <p className="text-gray-600 break-words">98% 고객 만족도 달성</p>
             </motion.div>
           </div>
         </div>
@@ -170,35 +170,35 @@ const Home: React.FC = () => {
               transition={{ duration: 0.8 }}
               className="w-full"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 break-words">
                 동진테크의<br />
                 <span className="text-blue-600">고장 ABS 재제조/수리 기술</span>
               </h2>
-              <p className="text-lg text-gray-600 mb-6">
+              <p className="text-lg text-gray-600 mb-6 break-words">
                 동진테크는 자동차 고장 ABS 모듈 재제조/수리 전문업체로, 
                 최신 설비와 전문 기술을 바탕으로 고품질 고장 ABS 재제조 제품을 제공합니다.
               </p>
               <div className="space-y-4">
                 <div className="flex items-center">
-                  <CheckCircle className="text-green-500 mr-3" size={20} />
-                  <span>자체 세척 설비로 완벽한 청정도 확보</span>
+                  <CheckCircle className="text-green-500 mr-3 flex-shrink-0" size={20} />
+                  <span className="break-words">자체 세척 설비로 완벽한 청정도 확보</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="text-green-500 mr-3" size={20} />
-                  <span>전문 검사 설비로 품질 보장</span>
+                  <CheckCircle className="text-green-500 mr-3 flex-shrink-0" size={20} />
+                  <span className="break-words">전문 검사 설비로 품질 보장</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="text-green-500 mr-3" size={20} />
-                  <span>렉서스 등 수입차 고장 ABS 전문 서비스</span>
+                  <CheckCircle className="text-green-500 mr-3 flex-shrink-0" size={20} />
+                  <span className="break-words">렉서스 등 수입차 고장 ABS 전문 서비스</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="text-green-500 mr-3" size={20} />
-                  <span>통신판매업 허가 완료</span>
+                  <CheckCircle className="text-green-500 mr-3 flex-shrink-0" size={20} />
+                  <span className="break-words">통신판매업 허가 완료</span>
                 </div>
               </div>
               <Link
                 to="/about"
-                className="inline-block mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                className="inline-block mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors break-words"
               >
                 더 알아보기
               </Link>
@@ -211,8 +211,8 @@ const Home: React.FC = () => {
             >
               <div className="text-center">
                 <div className="text-4xl mb-4">🏭</div>
-                <h3 className="text-2xl font-bold mb-4">전문 고장 ABS 재제조/수리 시설</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-bold mb-4 break-words">전문 고장 ABS 재제조/수리 시설</h3>
+                <p className="text-gray-600 break-words">
                   최신 설비와 전문 기술로 고품질 고장 ABS 모듈을 재제조/수리합니다.
                 </p>
               </div>
@@ -225,10 +225,10 @@ const Home: React.FC = () => {
       <section className="py-20 bg-gray-50 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="text-center mb-16 w-full">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 break-words">
               고장 ABS 모듈 수리 서비스
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto break-words">
               고장 ABS 모듈 회수부터 수리 완료 후 발송까지 원스톱 서비스로 안전하고 경제적인 고장 ABS 수리를 경험하세요.
             </p>
           </div>
@@ -243,14 +243,14 @@ const Home: React.FC = () => {
               <div className="bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
                 <Truck size={32} />
               </div>
-              <h3 className="text-xl font-semibold mb-4">고장 ABS 모듈 회수</h3>
-              <p className="text-gray-600 mb-4">
+              <h3 className="text-xl font-semibold mb-4 break-words">고장 ABS 모듈 회수</h3>
+              <p className="text-gray-600 mb-4 break-words">
                 전국 무료 택배 회수 서비스로 고객의 고장 ABS 모듈을 안전하게 회수합니다.
               </p>
               <div className="space-y-2 text-sm text-gray-500">
-                <p>• 안전한 포장 제공</p>
-                <p>• 회수 상태 실시간 추적</p>
-                <p>• 회수 완료 알림 서비스</p>
+                <p className="break-words">• 안전한 포장 제공</p>
+                <p className="break-words">• 회수 상태 실시간 추적</p>
+                <p className="break-words">• 회수 완료 알림 서비스</p>
               </div>
             </motion.div>
 
@@ -263,8 +263,8 @@ const Home: React.FC = () => {
               <div className="bg-green-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
                 <Wrench size={32} />
               </div>
-              <h3 className="text-xl font-semibold mb-4">고장 ABS 전문 수리</h3>
-              <p className="text-gray-600 mb-4">
+              <h3 className="text-xl font-semibold mb-4 break-words">고장 ABS 전문 수리</h3>
+              <p className="text-gray-600 mb-4 break-words">
                 전문 기술자의 정밀한 진단과 고장 ABS 수리로 완벽한 품질을 보장합니다.
               </p>
               <div className="space-y-2 text-sm text-gray-500">
@@ -283,8 +283,8 @@ const Home: React.FC = () => {
               <div className="bg-yellow-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
                 <Package size={32} />
               </div>
-              <h3 className="text-xl font-semibold mb-4">고장 ABS 안전 발송</h3>
-              <p className="text-gray-600 mb-4">
+              <h3 className="text-xl font-semibold mb-4 break-words">고장 ABS 안전 발송</h3>
+              <p className="text-gray-600 mb-4 break-words">
                 수리 완료된 고장 ABS 모듈을 안전하게 포장하여 발송합니다.
               </p>
               <div className="space-y-2 text-sm text-gray-500">

@@ -42,7 +42,7 @@ const About: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold mb-6"
+            className="text-4xl md:text-6xl font-bold mb-6 break-words"
           >
             동진테크 소개
           </motion.h1>
@@ -50,7 +50,7 @@ const About: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-blue-100 max-w-3xl mx-auto"
+            className="text-xl text-blue-100 max-w-3xl mx-auto break-words"
           >
             자동차 ABS 모듈 재제조 전문업체로서 최고 품질의 제품과 서비스를 제공합니다.
           </motion.p>
@@ -66,34 +66,34 @@ const About: React.FC = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 break-words">
                 전문 재제조 기술의<br />
                 <span className="text-blue-600">선두주자</span>
               </h2>
-              <p className="text-lg text-gray-600 mb-6">
+              <p className="text-lg text-gray-600 mb-6 break-words">
                 동진테크는 20년 이상의 자동차 부품 재제조 경험을 바탕으로, 
                 최신 기술과 엄격한 품질 관리를 통해 고품질 ABS 모듈을 제공합니다.
               </p>
-              <p className="text-lg text-gray-600 mb-8">
+              <p className="text-lg text-gray-600 mb-8 break-words">
                 특히 렉서스 등 수입차 ABS 모듈 재제조에 특화되어 있으며, 
                 자체 세척 설비와 전문 검사 설비를 통해 완벽한 품질을 보장합니다.
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600 mb-2">20+</div>
-                  <div className="text-gray-600">년 경험</div>
+                  <div className="text-gray-600 break-words">년 경험</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600 mb-2">1000+</div>
-                  <div className="text-gray-600">재제조 제품</div>
+                  <div className="text-gray-600 break-words">재제조 제품</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600 mb-2">98%</div>
-                  <div className="text-gray-600">고객 만족도</div>
+                  <div className="text-gray-600 break-words">고객 만족도</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600 mb-2">24h</div>
-                  <div className="text-gray-600">배송 보장</div>
+                  <div className="text-gray-600 break-words">배송 보장</div>
                 </div>
               </div>
             </motion.div>

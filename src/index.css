@@ -30,6 +30,38 @@ html {
   width: 100%;
 }
 
+/* 텍스트 줄바꿈 개선 */
+* {
+  word-wrap: break-word;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* 긴 텍스트 줄바꿈 개선 */
+p, h1, h2, h3, h4, h5, h6, span, div {
+  word-wrap: break-word;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-height: 1.6;
+}
+
+/* 모바일에서 텍스트 줄바꿈 최적화 */
+@media (max-width: 768px) {
+  p, h1, h2, h3, h4, h5, h6, span, div {
+    word-wrap: break-word;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+  }
+  
+  /* 모바일에서 긴 단어 강제 줄바꿈 */
+  .break-words {
+    word-break: break-all;
+    overflow-wrap: break-word;
+  }
+}
+
 /* 모바일에서 스크롤 동작 최적화 */
 @media (max-width: 768px) {
   html {
@@ -75,5 +107,40 @@ html {
   .flex {
     width: 100% !important;
     max-width: 100% !important;
+  }
+  
+  /* 모바일에서 텍스트 크기 조정 */
+  .text-4xl {
+    font-size: 1.875rem !important;
+    line-height: 2.25rem !important;
+  }
+  
+  .text-6xl {
+    font-size: 3rem !important;
+    line-height: 1 !important;
+  }
+  
+  .text-xl {
+    font-size: 1.125rem !important;
+    line-height: 1.75rem !important;
+  }
+  
+  .text-lg {
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+  }
+  
+  /* 모바일에서 패딩 조정 */
+  .px-4.sm\\:px-6.lg\\:px-8 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* 모바일에서 버튼 텍스트 줄바꿈 */
+  button, a {
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 }

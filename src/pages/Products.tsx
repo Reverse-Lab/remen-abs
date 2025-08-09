@@ -253,7 +253,7 @@ const Products: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold mb-6"
+            className="text-4xl md:text-6xl font-bold mb-6 break-words"
           >
             ABS 모듈 전문 수리 서비스
           </motion.h1>
@@ -261,7 +261,7 @@ const Products: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-blue-100 max-w-3xl mx-auto"
+            className="text-xl text-blue-100 max-w-3xl mx-auto break-words"
           >
             고장품 회수부터 수리 완료 후 발송까지 원스톱 서비스로 안전하고 경제적인 ABS 모듈 수리를 경험하세요.
           </motion.p>
@@ -272,10 +272,10 @@ const Products: React.FC = () => {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 break-words">
               수리 서비스 특징
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto break-words">
               REMEN_ABS만의 특별한 수리 서비스 프로세스를 확인하세요.
             </p>
           </div>
@@ -290,8 +290,8 @@ const Products: React.FC = () => {
               <div className="bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
                 <Shield size={32} />
               </div>
-              <h3 className="text-xl font-semibold mb-4">품질 보장</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-4 break-words">품질 보장</h3>
+              <p className="text-gray-600 break-words">
                 전문 기술자의 정밀한 수리와 엄격한 품질 검사를 통해 
                 모든 수리 제품은 1년 보증을 제공합니다.
               </p>
@@ -306,8 +306,8 @@ const Products: React.FC = () => {
               <div className="bg-green-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
                 <Clock size={32} />
               </div>
-              <h3 className="text-xl font-semibold mb-4">빠른 수리</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-4 break-words">빠른 수리</h3>
+              <p className="text-gray-600 break-words">
                 평균 3-5일 내 수리 완료. 긴급한 경우 당일 수리도 가능하며,
                 수리 과정을 실시간으로 확인할 수 있습니다.
               </p>
@@ -322,8 +322,8 @@ const Products: React.FC = () => {
               <div className="bg-yellow-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
                 <Award size={32} />
               </div>
-              <h3 className="text-xl font-semibold mb-4">전문 기술</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-4 break-words">전문 기술</h3>
+              <p className="text-gray-600 break-words">
                 20년 이상의 ABS 모듈 수리 전문 기술로 
                 완벽한 수리 품질을 보장합니다.
               </p>
@@ -336,10 +336,10 @@ const Products: React.FC = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 break-words">
               수리 프로세스
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto break-words">
               고장품 회수부터 수리 완료까지 7단계 체계적 프로세스
             </p>
           </div>
@@ -354,25 +354,25 @@ const Products: React.FC = () => {
                 className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
               >
                 <div className="flex items-center mb-4">
-                  <div className="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">
+                  <div className="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3 flex-shrink-0">
                     {process.icon}
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900">{process.title}</h3>
-                    <p className="text-sm text-gray-600">{process.description}</p>
+                    <h3 className="text-lg font-bold text-gray-900 break-words">{process.title}</h3>
+                    <p className="text-sm text-gray-600 break-words">{process.description}</p>
                   </div>
                 </div>
                 
                 <div className="flex justify-between items-center mb-4 text-sm">
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">기간: {process.duration}</span>
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded">비용: {process.price}</span>
+                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded break-words">기간: {process.duration}</span>
+                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded break-words">비용: {process.price}</span>
                 </div>
 
                 <div className="space-y-1">
                   {process.features.map((feature, i) => (
                     <div key={i} className="flex items-center text-xs text-gray-600">
-                      <CheckCircle className="text-green-500 mr-1" size={12} />
-                      <span>{feature}</span>
+                      <CheckCircle className="text-green-500 mr-1 flex-shrink-0" size={12} />
+                      <span className="break-words">{feature}</span>
                     </div>
                   ))}
                 </div>
@@ -386,10 +386,10 @@ const Products: React.FC = () => {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 break-words">
               수리 서비스의 장점
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto break-words">
               새 제품 대비 경제적이고 환경 친화적인 수리 서비스
             </p>
           </div>

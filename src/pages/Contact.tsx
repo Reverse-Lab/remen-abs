@@ -101,7 +101,7 @@ const Contact: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold mb-6"
+            className="text-4xl md:text-6xl font-bold mb-6 break-words"
           >
             문의하기
           </motion.h1>
@@ -109,7 +109,7 @@ const Contact: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-blue-100 max-w-3xl mx-auto"
+            className="text-xl text-blue-100 max-w-3xl mx-auto break-words"
           >
             전문 상담원이 최적의 솔루션을 제안해드립니다.
           </motion.p>
@@ -126,40 +126,40 @@ const Contact: React.FC = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 break-words">
                 연락처 정보
               </h2>
               
               <div className="space-y-6">
                 <div className="flex items-start">
-                  <div className="bg-blue-600 text-white rounded-full p-3 mr-4">
+                  <div className="bg-blue-600 text-white rounded-full p-3 mr-4 flex-shrink-0">
                     <Phone size={24} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">전화</h3>
-                    <p className="text-gray-600">010-9027-9182</p>
-                    <p className="text-sm text-gray-500">평일 09:00 - 18:00</p>
+                    <h3 className="text-lg font-semibold mb-2 break-words">전화</h3>
+                    <p className="text-gray-600 break-words">010-9027-9182</p>
+                    <p className="text-sm text-gray-500 break-words">평일 09:00 - 18:00</p>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <div className="bg-green-600 text-white rounded-full p-3 mr-4">
+                  <div className="bg-green-600 text-white rounded-full p-3 mr-4 flex-shrink-0">
                     <Mail size={24} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">이메일</h3>
-                    <p className="text-gray-600">info@remen-abs.com</p>
-                    <p className="text-sm text-gray-500">24시간 접수 가능</p>
+                    <h3 className="text-lg font-semibold mb-2 break-words">이메일</h3>
+                    <p className="text-gray-600 break-words">info@remen-abs.com</p>
+                    <p className="text-sm text-gray-500 break-words">24시간 접수 가능</p>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <div className="bg-yellow-600 text-white rounded-full p-3 mr-4">
+                  <div className="bg-yellow-600 text-white rounded-full p-3 mr-4 flex-shrink-0">
                     <MapPin size={24} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">주소</h3>
-                    <p className="text-gray-600">
+                    <h3 className="text-lg font-semibold mb-2 break-words">주소</h3>
+                    <p className="text-gray-600 break-words">
                       인천광역시 남동구<br />
                       청능대로340번길 24, 2층<br />
                       (고잔동)
@@ -168,12 +168,12 @@ const Contact: React.FC = () => {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="bg-purple-600 text-white rounded-full p-3 mr-4">
+                  <div className="bg-purple-600 text-white rounded-full p-3 mr-4 flex-shrink-0">
                     <Clock size={24} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">영업시간</h3>
-                    <p className="text-gray-600">
+                    <h3 className="text-lg font-semibold mb-2 break-words">영업시간</h3>
+                    <p className="text-gray-600 break-words">
                       평일: 09:00 - 18:00<br />
                       토요일: 09:00 - 13:00<br />
                       일요일: 휴무
@@ -183,21 +183,21 @@ const Contact: React.FC = () => {
               </div>
 
               <div className="mt-8 p-6 bg-blue-50 rounded-xl">
-                <h3 className="text-lg font-semibold mb-4 text-blue-900">
+                <h3 className="text-lg font-semibold mb-4 text-blue-900 break-words">
                   빠른 상담 안내
                 </h3>
                 <ul className="space-y-2 text-sm text-blue-800">
                   <li className="flex items-center">
-                    <CheckCircle size={16} className="mr-2 text-green-500" />
-                    차량 정보를 미리 준비해 주세요
+                    <CheckCircle size={16} className="mr-2 text-green-500 flex-shrink-0" />
+                    <span className="break-words">차량 정보를 미리 준비해 주세요</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle size={16} className="mr-2 text-green-500" />
-                    연락 가능한 시간을 알려주세요
+                    <CheckCircle size={16} className="mr-2 text-green-500 flex-shrink-0" />
+                    <span className="break-words">연락 가능한 시간을 알려주세요</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle size={16} className="mr-2 text-green-500" />
-                    긴급한 경우 전화 문의를 권장합니다
+                    <CheckCircle size={16} className="mr-2 text-green-500 flex-shrink-0" />
+                    <span className="break-words">긴급한 경우 전화 문의를 권장합니다</span>
                   </li>
                 </ul>
               </div>

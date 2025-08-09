@@ -442,7 +442,7 @@ const RepairService: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-5xl font-bold mb-6"
+            className="text-4xl md:text-5xl font-bold mb-6 break-words"
           >
             고장 ABS 모듈 수리 서비스 신청
           </motion.h1>
@@ -450,7 +450,7 @@ const RepairService: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-blue-100"
+            className="text-xl text-blue-100 break-words"
           >
             고장 ABS 모듈 회수부터 수리 완료까지 원스톱 서비스로 안전하고 경제적인 고장 ABS 수리를 경험하세요.
           </motion.p>
@@ -470,7 +470,7 @@ const RepairService: React.FC = () => {
                 }`}>
                   {step.icon}
                 </div>
-                <span className={`text-xs sm:text-sm font-medium text-center ${
+                <span className={`text-xs sm:text-sm font-medium text-center break-words ${
                   currentStep >= step.id ? 'text-blue-600' : 'text-gray-500'
                 }`}>
                   {step.title}
