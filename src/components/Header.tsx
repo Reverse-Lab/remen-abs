@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, User, LogOut } from 'lucide-react';
+import { Menu, X, User, LogOut, ShoppingCart } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useCart } from '../contexts/CartContext';
 import AuthModal from './AuthModal';
 import CartIcon from './CartIcon';
 
@@ -10,6 +11,7 @@ const Header: React.FC = React.memo(() => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const { user, isAdmin, logout, loading } = useAuth();
+  const { state: cartState } = useCart();
   const navigate = useNavigate();
 
   const handleAuthClick = useCallback((mode: 'login' | 'register') => {
@@ -182,15 +184,23 @@ const Header: React.FC = React.memo(() => {
               ))}
               
               {/* Mobile Cart Icon */}
-              <div className="px-3 py-2">
-                <CartIcon 
-                  onClick={() => {
-                    handleMenuClose();
-                    navigate('/cart');
-                  }} 
-                  className="text-gray-700 hover:text-blue-600" 
-                />
-              </div>
+              <Link
+                to="/cart"
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-100 transition-colors"
+                onClick={handleMenuClose}
+              >
+                <div className="flex items-center space-x-2">
+                  <span>장바구니</span>
+                  <div className="relative">
+                    <ShoppingCart size={20} />
+                    {cartState.totalItems > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
+                        {cartState.totalItems > 99 ? '99+' : cartState.totalItems}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </Link>
               
               {/* Mobile Auth Buttons */}
               {user ? (

@@ -447,10 +447,10 @@ const Home: React.FC = () => {
               고장 ABS 무료 상담 신청
             </Link>
             <a
-              href="tel:032-123-4567"
+                              href="tel:010-9027-9182"
               className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition-colors text-center"
             >
-              032-123-4567
+                              010-9027-9182
             </a>
           </div>
         </div>

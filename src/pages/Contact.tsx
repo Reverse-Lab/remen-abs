@@ -137,7 +137,7 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-2">전화</h3>
-                    <p className="text-gray-600">02-1234-5678</p>
+                    <p className="text-gray-600">010-9027-9182</p>
                     <p className="text-sm text-gray-500">평일 09:00 - 18:00</p>
                   </div>
                 </div>

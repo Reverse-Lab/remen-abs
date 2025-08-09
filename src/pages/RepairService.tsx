@@ -460,26 +460,21 @@ const RepairService: React.FC = () => {
       {/* Progress Steps */}
       <section className="py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-center mb-8 relative gap-4 sm:gap-8 md:gap-12">
             {steps.map((step, index) => (
-              <div key={step.id} className="flex items-center">
-                <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
+              <div key={step.id} className="flex flex-col items-center" style={{ minHeight: '80px' }}>
+                <div className={`flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full mb-2 ${
                   currentStep >= step.id 
                     ? 'bg-blue-600 text-white' 
                     : 'bg-gray-200 text-gray-600'
                 }`}>
                   {step.icon}
                 </div>
-                <span className={`ml-2 text-sm font-medium ${
+                <span className={`text-xs sm:text-sm font-medium text-center ${
                   currentStep >= step.id ? 'text-blue-600' : 'text-gray-500'
                 }`}>
                   {step.title}
                 </span>
-                {index < steps.length - 1 && (
-                  <div className={`w-16 h-0.5 mx-4 ${
-                    currentStep > step.id ? 'bg-blue-600' : 'bg-gray-200'
-                  }`} />
-                )}
               </div>
             ))}
           </div>
@@ -534,7 +529,7 @@ const RepairService: React.FC = () => {
             <div className="bg-white rounded-lg p-6 shadow-md">
               <Phone className="w-8 h-8 text-blue-600 mx-auto mb-4" />
               <h3 className="text-lg font-semibold mb-2">전화 문의</h3>
-              <p className="text-gray-600">032-123-4567</p>
+                                <p className="text-gray-600">010-9027-9182</p>
             </div>
             <div className="bg-white rounded-lg p-6 shadow-md">
               <MessageSquare className="w-8 h-8 text-blue-600 mx-auto mb-4" />

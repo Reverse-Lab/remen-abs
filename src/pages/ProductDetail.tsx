@@ -983,8 +983,8 @@ const ProductDetail: React.FC = () => {
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-blue-700">
                       <div>
-                        <p><strong>전화:</strong> 032-123-4567</p>
-                        <p><strong>이메일:</strong> info@dongjintech.com</p>
+                                                  <p><strong>전화:</strong> 010-9027-9182</p>
+                                                  <p><strong>이메일:</strong> info@remen-abs.com</p>
                       </div>
                       <div>
                         <p><strong>운영시간:</strong> 평일 09:00-18:00</p>

@@ -302,7 +302,7 @@ const About: React.FC = () => {
               <Phone size={48} className="text-green-600 mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-4">전화</h3>
               <p className="text-gray-600">
-                032-123-4567<br />
+                010-9027-9182<br />
                 평일 09:00 - 18:00
               </p>
             </motion.div>
@@ -316,7 +316,7 @@ const About: React.FC = () => {
               <Mail size={48} className="text-purple-600 mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-4">이메일</h3>
               <p className="text-gray-600">
-                info@dongjintech.com<br />
+                info@remen-abs.com<br />
                 support@dongjintech.com
               </p>
             </motion.div>

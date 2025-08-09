@@ -11,6 +11,7 @@ const Footer: React.FC = React.memo(() => {
     { to: "/", label: "홈" },
     { to: "/about", label: "회사소개" },
     { to: "/products", label: "제품" },
+    { to: "/repair-service", label: "수리서비스" },
     { to: "/contact", label: "문의" }
   ], []);
 
@@ -40,16 +41,6 @@ const Footer: React.FC = React.memo(() => {
                 동진테크는 자동차 ABS 모듈 재제조 전문업체입니다. 
                 최고 품질의 재제조 ABS 모듈로 안전한 주행을 보장합니다.
               </p>
-              <div className="flex space-x-4">
-                <div className="flex items-center text-gray-300">
-                  <Phone size={16} className="mr-2" />
-                  <span>032-123-4567</span>
-                </div>
-                <div className="flex items-center text-gray-300">
-                  <Mail size={16} className="mr-2" />
-                  <span>info@dongjintech.com</span>
-                </div>
-              </div>
             </div>
 
             {/* Quick Links */}
@@ -79,11 +70,11 @@ const Footer: React.FC = React.memo(() => {
                 </div>
                 <div className="flex items-center">
                   <Phone size={16} className="mr-2" />
-                  <span>032-123-4567</span>
+                  <span>010-9027-9182</span>
                 </div>
                 <div className="flex items-center">
                   <Mail size={16} className="mr-2" />
-                  <span>info@dongjintech.com</span>
+                  <span>info@remen-abs.com</span>
                 </div>
               </div>
             </div>
