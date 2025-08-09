@@ -75,3 +75,4 @@ REACT_APP_FIREBASE_MEASUREMENT_ID=your-measurement-id
 - `.env` 파일은 절대 GitHub에 커밋하지 마세요
 - Firebase Service Account JSON은 안전하게 보관하세요
 - GitHub Secrets는 저장소 관리자만 접근할 수 있도록 설정하세요
+
