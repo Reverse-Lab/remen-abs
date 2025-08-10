@@ -92,7 +92,7 @@ try {
 let analytics: Analytics | null = null;
 if (app) {
   isSupported().then(yes => {
-    if (yes) {
+    if (yes && app) {  // app이 여전히 존재하는지 다시 확인
       try {
         analytics = getAnalytics(app);
         console.log('Firebase Analytics initialized successfully');
