@@ -1,0 +1,62 @@
+name: Test Environment Variables
+
+on:
+  workflow_dispatch:  # 수동 실행
+
+jobs:
+  test-env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Test Environment Variables
+        run: |
+          echo "Testing Firebase environment variables..."
+          
+          # 각 환경변수가 설정되었는지 확인
+          if [ -z "${{ secrets.REACT_APP_FIREBASE_API_KEY }}" ]; then
+            echo "❌ REACT_APP_FIREBASE_API_KEY is not set"
+          else
+            echo "✅ REACT_APP_FIREBASE_API_KEY is set (length: ${#REACT_APP_FIREBASE_API_KEY})"
+          fi
+          
+          if [ -z "${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}" ]; then
+            echo "❌ REACT_APP_FIREBASE_AUTH_DOMAIN is not set"
+          else
+            echo "✅ REACT_APP_FIREBASE_AUTH_DOMAIN is set: ${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+          fi
+          
+          if [ -z "${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}" ]; then
+            echo "❌ REACT_APP_FIREBASE_PROJECT_ID is not set"
+          else
+            echo "✅ REACT_APP_FIREBASE_PROJECT_ID is set: ${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
+          fi
+          
+          if [ -z "${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}" ]; then
+            echo "❌ REACT_APP_FIREBASE_STORAGE_BUCKET is not set"
+          else
+            echo "✅ REACT_APP_FIREBASE_STORAGE_BUCKET is set: ${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
+          fi
+          
+          if [ -z "${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}" ]; then
+            echo "❌ REACT_APP_FIREBASE_MESSAGING_SENDER_ID is not set"
+          else
+            echo "✅ REACT_APP_FIREBASE_MESSAGING_SENDER_ID is set: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
+          fi
+          
+          if [ -z "${{ secrets.REACT_APP_FIREBASE_APP_ID }}" ]; then
+            echo "❌ REACT_APP_FIREBASE_APP_ID is not set"
+          else
+            echo "✅ REACT_APP_FIREBASE_APP_ID is set (length: ${#REACT_APP_FIREBASE_APP_ID})"
+          fi
+          
+          if [ -z "${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}" ]; then
+            echo "⚠️ REACT_APP_FIREBASE_MEASUREMENT_ID is not set (optional)"
+          else
+            echo "✅ REACT_APP_FIREBASE_MEASUREMENT_ID is set: ${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+          fi
+          
+          echo ""
+          echo "Summary:"
+          echo "Required variables: REACT_APP_FIREBASE_API_KEY, REACT_APP_FIREBASE_AUTH_DOMAIN, REACT_APP_FIREBASE_PROJECT_ID, REACT_APP_FIREBASE_STORAGE_BUCKET, REACT_APP_FIREBASE_MESSAGING_SENDER_ID, REACT_APP_FIREBASE_APP_ID"
+          echo "Optional variables: REACT_APP_FIREBASE_MEASUREMENT_ID"

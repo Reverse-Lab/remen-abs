@@ -18,6 +18,11 @@ jobs:
       - name: Create .env.production
         run: |
           echo "Creating .env.production file..."
+          
+          # 기존 .env 파일들 제거
+          rm -f .env .env.production
+          
+          # 환경변수 파일 생성
           cat > .env.production << 'EOF'
           REACT_APP_FIREBASE_API_KEY=${{ secrets.REACT_APP_FIREBASE_API_KEY }}
           REACT_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
@@ -27,36 +32,70 @@ jobs:
           REACT_APP_FIREBASE_APP_ID=${{ secrets.REACT_APP_FIREBASE_APP_ID }}
           REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
           EOF
+          
           echo ".env.production file created successfully"
-          echo "File contents (without sensitive data):"
-          echo "REACT_APP_FIREBASE_API_KEY=[HIDDEN]"
-          echo "REACT_APP_FIREBASE_AUTH_DOMAIN=[HIDDEN]"
-          echo "REACT_APP_FIREBASE_PROJECT_ID=[HIDDEN]"
-          echo "REACT_APP_FIREBASE_STORAGE_BUCKET=[HIDDEN]"
-          echo "REACT_APP_FIREBASE_MESSAGING_SENDER_ID=[HIDDEN]"
-          echo "REACT_APP_FIREBASE_APP_ID=[HIDDEN]"
-          echo "REACT_APP_FIREBASE_MEASUREMENT_ID=[HIDDEN]"
+          echo "File size: $(wc -c < .env.production) bytes"
+          echo "Number of lines: $(wc -l < .env.production)"
 
       - name: Verify .env.production
         run: |
           echo "Verifying .env.production file..."
-          if [ -f .env.production ]; then
-            echo "✅ .env.production file exists"
-            echo "File size: $(wc -c < .env.production) bytes"
-            echo "Number of lines: $(wc -l < .env.production)"
-            echo "Checking if all required variables are set..."
-            if grep -q "REACT_APP_FIREBASE_API_KEY=" .env.production && \
-               grep -q "REACT_APP_FIREBASE_PROJECT_ID=" .env.production && \
-               grep -q "REACT_APP_FIREBASE_AUTH_DOMAIN=" .env.production; then
-              echo "✅ All required Firebase variables are present"
-            else
-              echo "❌ Some required Firebase variables are missing"
-              exit 1
-            fi
-          else
+          
+          if [ ! -f .env.production ]; then
             echo "❌ .env.production file not found"
             exit 1
           fi
+          
+          echo "✅ .env.production file exists"
+          
+          # 필수 환경변수들이 실제로 값이 있는지 확인
+          echo "Checking if all required Firebase variables have actual values..."
+          
+          # API Key 확인 (가장 중요한 값)
+          if grep -q "REACT_APP_FIREBASE_API_KEY=$" .env.production; then
+            echo "❌ REACT_APP_FIREBASE_API_KEY is empty"
+            exit 1
+          fi
+          
+          # 다른 필수 변수들도 확인
+          if grep -q "REACT_APP_FIREBASE_PROJECT_ID=$" .env.production; then
+            echo "❌ REACT_APP_FIREBASE_PROJECT_ID is empty"
+            exit 1
+          fi
+          
+          if grep -q "REACT_APP_FIREBASE_AUTH_DOMAIN=$" .env.production; then
+            echo "❌ REACT_APP_FIREBASE_AUTH_DOMAIN is empty"
+            exit 1
+          fi
+          
+          if grep -q "REACT_APP_FIREBASE_STORAGE_BUCKET=$" .env.production; then
+            echo "❌ REACT_APP_FIREBASE_STORAGE_BUCKET is empty"
+            exit 1
+          fi
+          
+          if grep -q "REACT_APP_FIREBASE_MESSAGING_SENDER_ID=$" .env.production; then
+            echo "❌ REACT_APP_FIREBASE_MESSAGING_SENDER_ID is empty"
+            exit 1
+          fi
+          
+          if grep -q "REACT_APP_FIREBASE_APP_ID=$" .env.production; then
+            echo "❌ REACT_APP_FIREBASE_APP_ID is empty"
+            exit 1
+          fi
+          
+          echo "✅ All required Firebase variables have values"
+          
+          # 파일 내용 확인 (민감한 정보는 숨김)
+          echo "File contents (first few characters of each line):"
+          while IFS= read -r line; do
+            if [[ $line == REACT_APP_FIREBASE_API_KEY=* ]]; then
+              echo "REACT_APP_FIREBASE_API_KEY=[HIDDEN]"
+            elif [[ $line == REACT_APP_FIREBASE_APP_ID=* ]]; then
+              echo "REACT_APP_FIREBASE_APP_ID=[HIDDEN]"
+            else
+              echo "$line"
+            fi
+          done < .env.production
 
       - name: Install dependencies
         run: npm ci
