@@ -1,27 +1,26 @@
-name: Deploy to Firebase Hosting
+name: Build & Deploy Firebase
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
       - uses: actions/checkout@v4
-
+      
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
+          cache: 'npm'
+      
       - name: Create .env.production
         run: |
           echo "Creating .env.production file..."
-          
           # 기존 .env 파일들 제거
           rm -f .env .env.production
-          
           # 환경변수 파일 생성
           cat > .env.production << 'EOF'
           REACT_APP_FIREBASE_API_KEY=${{ secrets.REACT_APP_FIREBASE_API_KEY }}
@@ -32,7 +31,6 @@ jobs:
           REACT_APP_FIREBASE_APP_ID=${{ secrets.REACT_APP_FIREBASE_APP_ID }}
           REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
           EOF
-          
           echo ".env.production file created successfully"
           echo "File size: $(wc -c < .env.production) bytes"
           echo "Number of lines: $(wc -l < .env.production)"
@@ -40,52 +38,37 @@ jobs:
       - name: Verify .env.production
         run: |
           echo "Verifying .env.production file..."
-          
           if [ ! -f .env.production ]; then
             echo "❌ .env.production file not found"
             exit 1
           fi
-          
           echo "✅ .env.production file exists"
-          
-          # 필수 환경변수들이 실제로 값이 있는지 확인
           echo "Checking if all required Firebase variables have actual values..."
-          
-          # API Key 확인 (가장 중요한 값)
           if grep -q "REACT_APP_FIREBASE_API_KEY=$" .env.production; then
             echo "❌ REACT_APP_FIREBASE_API_KEY is empty"
             exit 1
           fi
-          
-          # 다른 필수 변수들도 확인
           if grep -q "REACT_APP_FIREBASE_PROJECT_ID=$" .env.production; then
             echo "❌ REACT_APP_FIREBASE_PROJECT_ID is empty"
             exit 1
           fi
-          
           if grep -q "REACT_APP_FIREBASE_AUTH_DOMAIN=$" .env.production; then
             echo "❌ REACT_APP_FIREBASE_AUTH_DOMAIN is empty"
             exit 1
           fi
-          
           if grep -q "REACT_APP_FIREBASE_STORAGE_BUCKET=$" .env.production; then
             echo "❌ REACT_APP_FIREBASE_STORAGE_BUCKET is empty"
             exit 1
           fi
-          
           if grep -q "REACT_APP_FIREBASE_MESSAGING_SENDER_ID=$" .env.production; then
             echo "❌ REACT_APP_FIREBASE_MESSAGING_SENDER_ID is empty"
             exit 1
           fi
-          
           if grep -q "REACT_APP_FIREBASE_APP_ID=$" .env.production; then
             echo "❌ REACT_APP_FIREBASE_APP_ID is empty"
             exit 1
           fi
-          
           echo "✅ All required Firebase variables have values"
-          
-          # 파일 내용 확인 (민감한 정보는 숨김)
           echo "File contents (first few characters of each line):"
           while IFS= read -r line; do
             if [[ $line == REACT_APP_FIREBASE_API_KEY=* ]]; then
@@ -101,7 +84,15 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build:github
+        run: |
+          REACT_APP_FIREBASE_API_KEY=${{ secrets.REACT_APP_FIREBASE_API_KEY }} \
+          REACT_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }} \
+          REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }} \
+          REACT_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }} \
+          REACT_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }} \
+          REACT_APP_FIREBASE_APP_ID=${{ secrets.REACT_APP_FIREBASE_APP_ID }} \
+          REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }} \
+          npm run build:github
         env:
           CI: false
           GENERATE_SOURCEMAP: false
