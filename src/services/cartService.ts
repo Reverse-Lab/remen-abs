@@ -111,3 +111,31 @@ export function transformCartData(cartData: any) {
   return { items, totalItems, totalPrice };
 }
 
+// 게스트 장바구니에 아이템 추가
+export async function addToGuestCart(item: {
+  sku: string;
+  qty: number;
+  priceAtAdd?: number;
+  name?: string;
+  brand?: string;
+  model?: string;
+  imageUrl?: string;
+  inStock?: boolean;
+}) {
+  return api("addItem", item);
+}
+
+// 회원 장바구니에 아이템 추가
+export async function addToUserCart(userId: string, item: {
+  sku: string;
+  qty: number;
+  priceAtAdd?: number;
+  name?: string;
+  brand?: string;
+  model?: string;
+  imageUrl?: string;
+  inStock?: boolean;
+}) {
+  return api("addUserItem", { userId, ...item });
+}
+

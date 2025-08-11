@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import * as cartService from '../services/cartService';
 
@@ -147,55 +148,100 @@ interface CartProviderProps {
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const { user } = useAuth();
+  const navigate = useNavigate();
 
-  // 장바구니 로드
-  const loadCart = useCallback(async () => {
+  // 회원 장바구니 로드 (먼저 정의)
+  const loadUserCart = useCallback(async () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       dispatch({ type: 'SET_ERROR', payload: null });
       
-      let response;
-      if (user?.uid) {
-        // 회원일 때: userCarts에서 로드
-        response = await cartService.loadUserCart(user.uid);
-      } else {
-        // 게스트일 때: carts에서 로드
-        response = await cartService.loadGuestCart();
-      }
-      
+      const response = await cartService.loadUserCart(user!.uid);
       if (response.ok && response.cart) {
         const transformedData = cartService.transformCartData(response.cart);
         dispatch({ type: 'LOAD_CART', payload: transformedData.items });
       } else {
-        throw new Error(response.error || 'Failed to load cart');
+        throw new Error(response.error || 'Failed to load user cart');
       }
     } catch (error) {
-      console.error('Failed to load cart:', error);
-      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to load cart' });
+      console.error('Failed to load user cart:', error);
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to load user cart' });
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
   }, [user?.uid]);
 
-  // 장바구니에 아이템 추가
+  // 게스트 장바구니 로드 (먼저 정의)
+  const loadGuestCart = useCallback(async () => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      dispatch({ type: 'SET_ERROR', payload: null });
+      
+      const response = await cartService.loadGuestCart();
+      if (response.ok && response.cart) {
+        const transformedData = cartService.transformCartData(response.cart);
+        dispatch({ type: 'LOAD_CART', payload: transformedData.items });
+      } else {
+        throw new Error(response.error || 'Failed to load guest cart');
+      }
+    } catch (error) {
+      console.error('Failed to load guest cart:', error);
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to load guest cart' });
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  }, []);
+
+  // 사용자 변경 시 장바구니 로드 (함수 정의 후에 사용)
+  useEffect(() => {
+    if (user) {
+      loadUserCart();
+    } else {
+      loadGuestCart();
+    }
+  }, [user?.uid, loadUserCart, loadGuestCart]);
+
+  // 장바구니에 아이템 추가 (회원/게스트 구분)
   const addToCart = useCallback(async (item: Omit<CartItem, 'quantity' | 'checked'>) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
       
-      const response = await cartService.addToCart({
-        sku: item.sku,
-        qty: 1,
-        priceAtAdd: item.price,
-        name: item.name,
-        brand: item.brand,
-        model: item.model,
-        imageUrl: item.imageUrl,
-        inStock: item.inStock
-      });
+      let response;
+      if (user?.uid) {
+        // 회원일 때: userCarts에 추가
+        response = await cartService.addToUserCart(user.uid, {
+          sku: item.sku,
+          qty: 1,
+          priceAtAdd: item.price,
+          name: item.name,
+          brand: item.brand,
+          model: item.model,
+          imageUrl: item.imageUrl,
+          inStock: item.inStock
+        });
+      } else {
+        // 게스트일 때: carts에 추가
+        response = await cartService.addToGuestCart({
+          sku: item.sku,
+          qty: 1,
+          priceAtAdd: item.price,
+          name: item.name,
+          brand: item.brand,
+          model: item.model,
+          imageUrl: item.imageUrl,
+          inStock: item.inStock
+        });
+      }
       
       if (response.ok) {
+        // 현재 장바구니에 아이템 추가
         dispatch({ type: 'ADD_ITEM', payload: { ...item, quantity: 1, checked: true } });
-        await loadCart(); // 서버에서 최신 데이터 로드
+        // 서버에서 최신 데이터 로드
+        if (user?.uid) {
+          await loadUserCart();
+        } else {
+          await loadGuestCart();
+        }
       } else {
         throw new Error(response.error || 'Failed to add item to cart');
       }
@@ -203,7 +249,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       console.error('Failed to add item to cart:', error);
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to add item to cart' });
     }
-  }, [loadCart]);
+  }, [user?.uid, loadUserCart, loadGuestCart]);
 
   // 장바구니에서 아이템 제거
   const removeFromCart = useCallback(async (id: string) => {
@@ -309,15 +355,6 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to merge cart' });
     }
   }, [user?.uid, loadCart]);
-
-  // 사용자 변경 시 장바구니 로드
-  useEffect(() => {
-    if (user) {
-      mergeCartOnSignIn();
-    } else {
-      loadCart();
-    }
-  }, [user, mergeCartOnSignIn, loadCart]);
 
   // 초기 로드
   useEffect(() => {

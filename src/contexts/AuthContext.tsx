@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '../firebase';
 import { onAuthStateChanged, User as FirebaseUser, signOut } from 'firebase/auth';
 import { doc, getDoc, setDoc, collection, getDocs } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 interface UserProfile {
   uid: string;
@@ -37,6 +38,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // 추가
 
   useEffect(() => {
     // Firebase Auth가 없으면 바로 로딩 완료
@@ -128,6 +130,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       if (auth) {
         await signOut(auth);
+        // 로그아웃 후 무조건 홈화면으로 이동
+        navigate('/');
       }
     } catch (error) {
       console.error('Logout error:', error);
