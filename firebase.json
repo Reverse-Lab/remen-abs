@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "target": "default",
     "public": "build",
     "ignore": [
       "firebase.json",
@@ -9,9 +8,78 @@
     ],
     "rewrites": [
       {
+        "source": "/api/getCart",
+        "function": "getCart"
+      },
+      {
+        "source": "/api/addItem",
+        "function": "addItem"
+      },
+      {
+        "source": "/api/updateItem",
+        "function": "updateItem"
+      },
+      {
+        "source": "/api/removeItem",
+        "function": "removeItem"
+      },
+      {
+        "source": "/api/clearCart",
+        "function": "clearCart"
+      },
+      {
+        "source": "/api/mergeCartOnSignIn",
+        "function": "mergeCartOnSignIn"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
+    ],
+    "headers": [
+      {
+        "source": "/api/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-store"
+          }
+        ]
+      }
+    ]
+  },
+  "functions": [
+    {
+      "source": "cart-functions",
+      "codebase": "cart-functions",
+      "region": "asia-northeast3",
+      "ignore": [
+        "nodemodules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        ".local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint",
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+  ],
+  "firestore": {
+    "database": "(default)",
+    "location": "asia-northeast3",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "apphosting": {
+    "backendId": "remen-abs-backend",
+    "rootDir": "/",
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log"
     ]
   }
 }

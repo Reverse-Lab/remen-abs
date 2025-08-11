@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+    // carts 컬렉션은 Cloud Functions를 통해서만 접근 가능
+    match /carts/{cartId} {
+      allow read, write: if false; // 모든 직접 접근 차단
+    }
+    
+    // 다른 컬렉션들은 기존 규칙 유지
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+

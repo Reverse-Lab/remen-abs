@@ -316,6 +316,7 @@ const Products: React.FC = () => {
                                 e.stopPropagation();
                                 addToCart({
                                   id: product.id,
+                                  sku: product.id,
                                   name: product.name,
                                   brand: product.brand,
                                   model: product.model,
@@ -335,6 +336,7 @@ const Products: React.FC = () => {
                               e.stopPropagation();
                               addToCart({
                                 id: product.id,
+                                sku: product.id,
                                 name: product.name,
                                 brand: product.brand,
                                 model: product.model,

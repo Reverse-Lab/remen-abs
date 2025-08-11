@@ -1,8 +1,10 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
+import * as cartService from '../services/cartService';
 
 export interface CartItem {
   id: string;
+  sku: string;
   name: string;
   brand: string;
   model: string;
@@ -10,30 +12,49 @@ export interface CartItem {
   imageUrl: string;
   quantity: number;
   inStock: boolean;
-  soldOut?: boolean;
+  checked: boolean;
 }
 
 interface CartState {
   items: CartItem[];
   totalItems: number;
   totalPrice: number;
+  loading: boolean;
+  error: string | null;
 }
 
 type CartAction =
+  | { type: 'SET_LOADING'; payload: boolean }
+  | { type: 'SET_ERROR'; payload: string | null }
+  | { type: 'LOAD_CART'; payload: CartItem[] }
   | { type: 'ADD_ITEM'; payload: CartItem }
   | { type: 'REMOVE_ITEM'; payload: string }
   | { type: 'UPDATE_QUANTITY'; payload: { id: string; quantity: number } }
-  | { type: 'CLEAR_CART' }
-  | { type: 'LOAD_CART'; payload: CartItem[] };
+  | { type: 'UPDATE_CHECKED'; payload: { id: string; checked: boolean } }
+  | { type: 'CLEAR_CART' };
 
 const initialState: CartState = {
   items: [],
   totalItems: 0,
   totalPrice: 0,
+  loading: false,
+  error: null,
 };
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
+    case 'SET_LOADING':
+      return { ...state, loading: action.payload };
+    
+    case 'SET_ERROR':
+      return { ...state, error: action.payload };
+    
+    case 'LOAD_CART': {
+      const totalItems = action.payload.reduce((sum, item) => sum + item.quantity, 0);
+      const totalPrice = action.payload.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      return { ...state, items: action.payload, totalItems, totalPrice, loading: false, error: null };
+    }
+    
     case 'ADD_ITEM': {
       const existingItem = state.items.find(item => item.id === action.payload.id);
       
@@ -78,15 +99,18 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       return { ...state, items: updatedItems, totalItems, totalPrice };
     }
     
+    case 'UPDATE_CHECKED': {
+      const updatedItems = state.items.map(item =>
+        item.id === action.payload.id
+          ? { ...item, checked: action.payload.checked }
+          : item
+      );
+      
+      return { ...state, items: updatedItems };
+    }
+    
     case 'CLEAR_CART':
       return { ...state, items: [], totalItems: 0, totalPrice: 0 };
-    
-    case 'LOAD_CART': {
-      const totalItems = action.payload.reduce((sum, item) => sum + item.quantity, 0);
-      const totalPrice = action.payload.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-      
-      return { ...state, items: action.payload, totalItems, totalPrice };
-    }
     
     default:
       return state;
@@ -95,12 +119,15 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
 interface CartContextType {
   state: CartState;
-  addToCart: (item: Omit<CartItem, 'quantity'>) => void;
-  removeFromCart: (id: string) => void;
-  updateQuantity: (id: string, quantity: number) => void;
-  clearCart: () => void;
+  loadCart: () => Promise<void>;
+  addToCart: (item: Omit<CartItem, 'quantity' | 'checked'>) => Promise<void>;
+  removeFromCart: (id: string) => Promise<void>;
+  updateQuantity: (id: string, quantity: number) => Promise<void>;
+  updateChecked: (id: string, checked: boolean) => Promise<void>;
+  clearCart: () => Promise<void>;
   isInCart: (id: string) => boolean;
   getItemQuantity: (id: string) => number;
+  mergeCartOnSignIn: () => Promise<void>;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -121,49 +148,173 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const { user } = useAuth();
 
-  // 사용자별 장바구니 키 생성
-  const getCartKey = () => {
-    return user ? `cart_${user.uid}` : 'cart_guest';
-  };
-
-  // 로컬 스토리지에서 장바구니 데이터 로드
-  useEffect(() => {
-    const cartKey = getCartKey();
-    const savedCart = localStorage.getItem(cartKey);
-    if (savedCart) {
-      try {
-        const cartItems = JSON.parse(savedCart);
-        dispatch({ type: 'LOAD_CART', payload: cartItems });
-      } catch (error) {
-        console.error('Failed to load cart from localStorage:', error);
+  // 장바구니 로드
+  const loadCart = useCallback(async () => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      dispatch({ type: 'SET_ERROR', payload: null });
+      
+      const response = await cartService.loadCart();
+      if (response.ok && response.cart) {
+        const transformedData = cartService.transformCartData(response.cart);
+        dispatch({ type: 'LOAD_CART', payload: transformedData.items });
+      } else {
+        throw new Error(response.error || 'Failed to load cart');
       }
-    } else {
-      // 새로운 사용자이거나 비로그인 사용자인 경우 빈 장바구니로 초기화
-      dispatch({ type: 'LOAD_CART', payload: [] });
+    } catch (error) {
+      console.error('Failed to load cart:', error);
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to load cart' });
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
     }
-  }, [user]); // user가 변경될 때마다 실행
+  }, []);
 
-  // 장바구니 상태가 변경될 때마다 로컬 스토리지에 저장
+  // 장바구니에 아이템 추가
+  const addToCart = useCallback(async (item: Omit<CartItem, 'quantity' | 'checked'>) => {
+    try {
+      dispatch({ type: 'SET_ERROR', payload: null });
+      
+      const response = await cartService.addToCart({
+        sku: item.sku,
+        qty: 1,
+        priceAtAdd: item.price,
+        name: item.name,
+        brand: item.brand,
+        model: item.model,
+        imageUrl: item.imageUrl,
+        inStock: item.inStock
+      });
+      
+      if (response.ok) {
+        dispatch({ type: 'ADD_ITEM', payload: { ...item, quantity: 1, checked: true } });
+        await loadCart(); // 서버에서 최신 데이터 로드
+      } else {
+        throw new Error(response.error || 'Failed to add item to cart');
+      }
+    } catch (error) {
+      console.error('Failed to add item to cart:', error);
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to add item to cart' });
+    }
+  }, [loadCart]);
+
+  // 장바구니에서 아이템 제거
+  const removeFromCart = useCallback(async (id: string) => {
+    try {
+      dispatch({ type: 'SET_ERROR', payload: null });
+      
+      const item = state.items.find(item => item.id === id);
+      if (!item) return;
+      
+      const response = await cartService.removeFromCart(item.sku);
+      
+      if (response.ok) {
+        dispatch({ type: 'REMOVE_ITEM', payload: id });
+      } else {
+        throw new Error(response.error || 'Failed to remove item from cart');
+      }
+    } catch (error) {
+      console.error('Failed to remove item from cart:', error);
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to remove item from cart' });
+    }
+  }, [state.items]);
+
+  // 수량 업데이트
+  const updateQuantity = useCallback(async (id: string, quantity: number) => {
+    try {
+      dispatch({ type: 'SET_ERROR', payload: null });
+      
+      const item = state.items.find(item => item.id === id);
+      if (!item) return;
+      
+      const response = await cartService.updateCartItem(item.sku, quantity);
+      
+      if (response.ok) {
+        if (quantity <= 0) {
+          dispatch({ type: 'REMOVE_ITEM', payload: id });
+        } else {
+          dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } });
+        }
+      } else {
+        throw new Error(response.error || 'Failed to update quantity');
+      }
+    } catch (error) {
+      console.error('Failed to update quantity:', error);
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to update quantity' });
+    }
+  }, [state.items]);
+
+  // 체크 상태 업데이트
+  const updateChecked = useCallback(async (id: string, checked: boolean) => {
+    try {
+      dispatch({ type: 'SET_ERROR', payload: null });
+      
+      const item = state.items.find(item => item.id === id);
+      if (!item) return;
+      
+      const response = await cartService.updateCartItem(item.sku, undefined, checked);
+      
+      if (response.ok) {
+        dispatch({ type: 'UPDATE_CHECKED', payload: { id, checked } });
+      } else {
+        throw new Error(response.error || 'Failed to update checked status');
+      }
+    } catch (error) {
+      console.error('Failed to update checked status:', error);
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to update checked status' });
+    }
+  }, [state.items]);
+
+  // 장바구니 비우기
+  const clearCart = useCallback(async () => {
+    try {
+      dispatch({ type: 'SET_ERROR', payload: null });
+      
+      const response = await cartService.clearCart();
+      
+      if (response.ok) {
+        dispatch({ type: 'CLEAR_CART' });
+      } else {
+        throw new Error(response.error || 'Failed to clear cart');
+      }
+    } catch (error) {
+      console.error('Failed to clear cart:', error);
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to clear cart' });
+    }
+  }, []);
+
+  // 로그인 시 장바구니 병합
+  const mergeCartOnSignIn = useCallback(async () => {
+    if (!user?.uid) return;
+    
+    try {
+      dispatch({ type: 'SET_ERROR', payload: null });
+      
+      const response = await cartService.mergeCartOnSignIn(user.uid);
+      
+      if (response.ok) {
+        await loadCart(); // 병합된 장바구니 로드
+      } else {
+        throw new Error(response.error || 'Failed to merge cart');
+      }
+    } catch (error) {
+      console.error('Failed to merge cart:', error);
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to merge cart' });
+    }
+  }, [user?.uid, loadCart]);
+
+  // 사용자 변경 시 장바구니 로드
   useEffect(() => {
-    const cartKey = getCartKey();
-    localStorage.setItem(cartKey, JSON.stringify(state.items));
-  }, [state.items, user]);
+    if (user) {
+      mergeCartOnSignIn();
+    } else {
+      loadCart();
+    }
+  }, [user, mergeCartOnSignIn, loadCart]);
 
-  const addToCart = (item: Omit<CartItem, 'quantity'>) => {
-    dispatch({ type: 'ADD_ITEM', payload: { ...item, quantity: 1 } });
-  };
-
-  const removeFromCart = (id: string) => {
-    dispatch({ type: 'REMOVE_ITEM', payload: id });
-  };
-
-  const updateQuantity = (id: string, quantity: number) => {
-    dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } });
-  };
-
-  const clearCart = () => {
-    dispatch({ type: 'CLEAR_CART' });
-  };
+  // 초기 로드
+  useEffect(() => {
+    loadCart();
+  }, [loadCart]);
 
   const isInCart = (id: string) => {
     return state.items.some(item => item.id === id);
@@ -176,12 +327,15 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const value: CartContextType = {
     state,
+    loadCart,
     addToCart,
     removeFromCart,
     updateQuantity,
+    updateChecked,
     clearCart,
     isInCart,
     getItemQuantity,
+    mergeCartOnSignIn,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

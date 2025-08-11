@@ -110,3 +110,13 @@ jobs:
           channelId: live
           projectId: remen-abs
           entryPoint: ./
+
+      - name: Deploy Firebase Functions
+        run: |
+          echo "Deploying Firebase Functions..."
+          cd functions
+          npm ci
+          npm run build
+          firebase deploy --only functions --token "${{ secrets.FIREBASE_TOKEN }}" --project remen-abs
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

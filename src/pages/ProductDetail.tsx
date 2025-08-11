@@ -544,6 +544,7 @@ const ProductDetail: React.FC = () => {
                       <button 
                         onClick={() => addToCart({
                           id: product.id,
+                          sku: product.id,
                           name: product.name,
                           brand: product.brand,
                           model: product.model,
@@ -562,6 +563,7 @@ const ProductDetail: React.FC = () => {
                         // 해당 제품을 장바구니에 추가
                         addToCart({
                           id: product.id,
+                          sku: product.id,
                           name: product.name,
                           brand: product.brand,
                           model: product.model,
