@@ -32,6 +32,10 @@
         "function": "mergeCartOnSignIn"
       },
       {
+        "source": "/api/getUserCart",
+        "function": "getUserCart"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

@@ -52,7 +52,13 @@ async function api(path: string, body?: any) {
 
 // 장바구니 API 함수들
 export async function loadCart() {
-  return api("getCart");
+  if (user?.uid) {
+    // 회원일 때: userCarts에서 로드
+    return api("getUserCart", { userId: user.uid });
+  } else {
+    // 게스트일 때: carts에서 로드
+    return api("getCart");
+  }
 }
 
 export async function addToCart(item: {
@@ -106,4 +112,67 @@ export function transformCartData(cartData: any) {
 
   return { items, totalItems, totalPrice };
 }
+
+// 회원 장바구니 가져오기
+export const getUserCart = onRequest({
+  region: "asia-northeast3",
+}, async (req, res) => {
+  try {
+    // CORS 설정
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+    
+    if (req.method === "OPTIONS") {
+      res.status(204).send("");
+      return;
+    }
+
+    if (req.method !== "POST") {
+      res.status(405).json({ok: false, error: "Method not allowed"});
+      return;
+    }
+
+    const {userId} = req.body;
+    
+    if (!userId) {
+      res.status(400).json({ok: false, error: "User ID is required"});
+      return;
+    }
+
+    logger.info("Getting user cart", {userId});
+
+    const userCartRef = db.collection("userCarts").doc(userId);
+    const userCartDoc = await userCartRef.get();
+    
+    if (!userCartDoc.exists) {
+      // 빈 장바구니 반환
+      res.json({
+        ok: true,
+        cart: {
+          id: userId,
+          items: [],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      });
+      return;
+    }
+
+    const userCartData = userCartDoc.data();
+    res.json({
+      ok: true,
+      cart: {
+        id: userId,
+        items: userCartData?.items || [],
+        createdAt: userCartData?.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+    });
+
+  } catch (error) {
+    logger.error("Error getting user cart:", error);
+    res.status(500).json({ok: false, error: "Internal server error"});
+  }
+});
 
