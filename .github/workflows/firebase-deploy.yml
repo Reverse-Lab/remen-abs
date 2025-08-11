@@ -114,7 +114,7 @@ jobs:
       - name: Deploy Firebase Functions
         run: |
           echo "Deploying Firebase Functions..."
-          cd functions
+          cd cart-functions
           npm ci
           npm run build
           firebase deploy --only functions --token "${{ secrets.FIREBASE_TOKEN }}" --project remen-abs
