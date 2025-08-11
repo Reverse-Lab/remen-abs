@@ -36,6 +36,10 @@
         "function": "getUserCart"
       },
       {
+        "source": "/api/addUserItem",
+        "function": "addUserItem"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

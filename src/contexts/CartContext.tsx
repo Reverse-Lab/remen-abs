@@ -231,15 +231,15 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       } else {
         // 게스트일 때: carts에 추가
         response = await cartService.addToGuestCart({
-          sku: item.sku,
-          qty: 1,
-          priceAtAdd: item.price,
-          name: item.name,
-          brand: item.brand,
-          model: item.model,
-          imageUrl: item.imageUrl,
-          inStock: item.inStock
-        });
+        sku: item.sku,
+        qty: 1,
+        priceAtAdd: item.price,
+        name: item.name,
+        brand: item.brand,
+        model: item.model,
+        imageUrl: item.imageUrl,
+        inStock: item.inStock
+      });
       }
       
       if (response.ok) {
