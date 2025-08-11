@@ -9,16 +9,6 @@ export function ensureCartId(): string {
   return id;
 }
 
-// Firebase Functions URL 매핑
-const FUNCTION_URLS = {
-  getCart: "https://getCart-ntt2yvcrza-du.a.run.app",
-  addItem: "https://addItem-ntt2yvcrza-du.a.run.app",
-  updateItem: "https://updateItem-ntt2yvcrza-du.a.run.app",
-  removeItem: "https://removeItem-ntt2yvcrza-du.a.run.app",
-  clearCart: "https://clearCart-ntt2yvcrza-du.a.run.app",
-  mergeCartOnSignIn: "https://mergeCartOnSignIn-ntt2yvcrza-du.a.run.app",
-};
-
 // API 래퍼
 async function api(path: string, body?: any) {
   const cartId = ensureCartId();
@@ -27,18 +17,24 @@ async function api(path: string, body?: any) {
     ...body
   };
   
-  // Functions URL 직접 사용
-  const functionUrl = FUNCTION_URLS[path as keyof typeof FUNCTION_URLS];
-  if (!functionUrl) {
-    throw new Error(`Unknown API path: ${path}`);
-  }
-  
   try {
-    const res = await fetch(functionUrl, {
+    const res = await fetch(`/api/${path}`, {
       method: "POST",
+      credentials: "include", // 쿠키 전송
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody)
     });
+    
+    // 응답이 JSON인지 확인
+    const contentType = res.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      // HTML 에러 페이지가 반환된 경우
+      if (res.status === 404) {
+        throw new Error('API endpoint not found. Please check if Firebase Functions are deployed.');
+      } else {
+        throw new Error(`Server returned ${res.status}: ${res.statusText}. Expected JSON response.`);
+      }
+    }
     
     if (!res.ok) {
       const errorData = await res.json();
