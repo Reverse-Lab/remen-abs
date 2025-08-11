@@ -123,6 +123,6 @@ jobs:
           cd cart-functions
           npm ci
           npm run build
-          firebase deploy --only functions --token "${{ secrets.FIREBASE_TOKEN }}" --project remen-abs
+          firebase deploy --only functions --token "${{ secrets.FIREBASE_TOKEN }}" --project remen-abs --non-interactive
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
