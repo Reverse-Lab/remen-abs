@@ -801,7 +801,7 @@ const ProductDetail: React.FC = () => {
 
       </div>
 
-      {/* 배송 상품 확인 요청 및 반품/교환 절차 */}
+      {/* 배송 상품 확인 요청 및 반품/구매 절차 */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -823,7 +823,7 @@ const ProductDetail: React.FC = () => {
                     </h3>
                     <p className="text-blue-800 leading-relaxed">
                       동진테크는 결함이 있거나 정상 작동하지 않는 제품에 대해서만 반품을 받습니다. 
-                      상품 페이지나 쇼핑 가이드에 명시된 특정 규정에 해당하는 경우 반품/교환이 불가능할 수 있으니 
+                      상품 페이지나 쇼핑 가이드에 명시된 특정 규정에 해당하는 경우 반품/구매가 불가능할 수 있으니 
                       해당 규정을 반드시 확인해 주시기 바랍니다.
                     </p>
                   </div>
@@ -831,7 +831,7 @@ const ProductDetail: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-green-50 p-6 rounded-lg">
                       <h4 className="text-lg font-semibold text-green-800 mb-4 flex items-center">
-                        ✅ 반품/교환 가능한 경우
+                        ✅ 반품/구매 가능한 경우
                       </h4>
                       <ul className="space-y-2 text-green-700">
                         <li className="flex items-start">
@@ -855,7 +855,7 @@ const ProductDetail: React.FC = () => {
 
                     <div className="bg-red-50 p-6 rounded-lg">
                       <h4 className="text-lg font-semibold text-red-800 mb-4 flex items-center">
-                        ❌ 반품/교환 불가능한 경우
+                        ❌ 반품/구매 불가능한 경우
                       </h4>
                       <ul className="space-y-2 text-red-700">
                         <li className="flex items-start">
@@ -872,7 +872,7 @@ const ProductDetail: React.FC = () => {
                         </li>
                         <li className="flex items-start">
                           <span className="mr-2">•</span>
-                          <span>교환 작업 중 손상된 경우</span>
+                          <span>구매 작업 중 손상된 경우</span>
                         </li>
                         <li className="flex items-start">
                           <span className="mr-2">•</span>
@@ -893,10 +893,10 @@ const ProductDetail: React.FC = () => {
               </div>
             </div>
 
-            {/* 반품/교환 절차 */}
+            {/* 반품/구매 절차 */}
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-                🔄 반품/교환 절차
+                🔄 반품/구매 절차
               </h2>
               <div className="bg-white rounded-xl shadow-lg p-8">
                 <div className="max-w-5xl mx-auto">
@@ -908,7 +908,7 @@ const ProductDetail: React.FC = () => {
                       </div>
                       <h3 className="font-semibold text-gray-900 mb-2">상품 확인</h3>
                       <p className="text-sm text-gray-600">
-                        반품/교환 가능 여부를 확인하세요. "반품/교환 불가능한 경우" 섹션을 참고하세요.
+                        반품/구매 가능 여부를 확인하세요. "반품/구매 불가능한 경우" 섹션을 참고하세요.
                       </p>
                     </div>
 
@@ -970,7 +970,7 @@ const ProductDetail: React.FC = () => {
                       </ul>
                       <ul className="space-y-2 text-yellow-700">
                         <li>• 원본 부품, 배송된 부품, 차량을 보여주는 사진</li>
-                        <li>• 교환 작업을 수행한 정비소의 이름과 주소</li>
+                        <li>• 구매 작업을 수행한 정비소의 이름과 주소</li>
                         <li>• 결함에 대한 객관적 판단이 가능한 자료 첨부</li>
                       </ul>
                     </div>
@@ -979,12 +979,20 @@ const ProductDetail: React.FC = () => {
                   {/* 연락처 정보 */}
                   <div className="mt-6 bg-blue-50 p-6 rounded-lg">
                     <h3 className="text-lg font-semibold text-blue-800 mb-4">
-                      📞 반품/교환 문의 연락처
+                      📞 반품/구매 문의 연락처
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-blue-700">
                       <div>
                                                   <p><strong>전화:</strong> 010-9027-9182</p>
-                                                  <p><strong>이메일:</strong> info@remen-abs.com</p>
+                                                  <p><strong>이메일:</strong> 
+                          <a 
+                            href="mailto:info@remen-abs.com?subject=REMEN_ABS 제품 문의&body=안녕하세요,%0D%0A%0D%0AREMEN_ABS 제품에 대한 문의사항이 있습니다.%0D%0A%0D%0A제품명: [제품명을 입력해주세요]%0D%0A문의 내용:%0D%0A%0D%0A%0D%0A감사합니다."
+                            className="text-blue-700 hover:text-blue-900 underline cursor-pointer"
+                            title="info@remen-abs.com로 메일 보내기"
+                          >
+                            info@remen-abs.com
+                          </a>
+                        </p>
                       </div>
                       <div>
                         <p><strong>운영시간:</strong> 평일 09:00-18:00</p>

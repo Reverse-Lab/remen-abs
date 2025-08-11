@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
 
 interface SEOProps {
   title: string;
@@ -52,6 +51,12 @@ const SEO: React.FC<SEOProps> = ({
     if (structuredData) {
       addStructuredData(structuredData);
     }
+
+    // cleanup 함수
+    return () => {
+      // 컴포넌트 언마운트 시 추가된 메타 태그 정리
+      cleanupMetaTags();
+    };
   }, [title, description, keywords, currentUrl, ogImage, ogType, structuredData]);
 
   const updateMetaTag = (name: string, content: string) => {
@@ -88,34 +93,13 @@ const SEO: React.FC<SEOProps> = ({
     document.head.appendChild(script);
   };
 
-  return (
-    <Helmet>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      {keywords && <meta name="keywords" content={keywords} />}
-      <link rel="canonical" href={currentUrl} />
-      
-      {/* Open Graph */}
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:url" content={currentUrl} />
-      <meta property="og:type" content={ogType} />
-      <meta property="og:image" content={ogImage} />
-      
-      {/* Twitter Card */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogImage} />
-      
-      {/* 구조화된 데이터 */}
-      {structuredData && (
-        <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
-        </script>
-      )}
-    </Helmet>
-  );
+  const cleanupMetaTags = () => {
+    // 추가된 메타 태그들을 정리 (필요한 경우)
+    // 기본 메타 태그는 유지
+  };
+
+  // Helmet을 사용하지 않고 null 반환
+  return null;
 };
 
 export default SEO; 

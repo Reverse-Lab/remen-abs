@@ -148,7 +148,13 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-2 break-words">이메일</h3>
-                    <p className="text-gray-600 break-words">info@remen-abs.com</p>
+                    <a 
+                      href="mailto:info@remen-abs.com?subject=REMEN_ABS 문의&body=안녕하세요,%0D%0A%0D%0AREMEN_ABS에 대한 문의사항이 있습니다.%0D%0A%0D%0A문의 내용:%0D%0A%0D%0A%0D%0A감사합니다."
+                      className="text-gray-600 break-words hover:text-green-600 transition-colors cursor-pointer"
+                      title="info@remen-abs.com로 메일 보내기"
+                    >
+                      info@remen-abs.com
+                    </a>
                     <p className="text-sm text-gray-500 break-words">24시간 접수 가능</p>
                   </div>
                 </div>

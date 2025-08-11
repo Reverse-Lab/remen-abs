@@ -18,7 +18,7 @@ const Footer: React.FC = React.memo(() => {
   const policyLinks = useMemo(() => [
     { to: "/terms", label: "이용약관" },
     { to: "/privacy", label: "개인정보처리방침" },
-    { to: "/refund-policy", label: "반품/환불/교환" }
+            { to: "/refund-policy", label: "반품/환불/구매" }
   ], []);
 
   const handleOpenModal = () => {
@@ -74,7 +74,13 @@ const Footer: React.FC = React.memo(() => {
                 </div>
                 <div className="flex items-center">
                   <Mail size={16} className="mr-2" />
-                  <span>info@remen-abs.com</span>
+                  <a 
+                    href="mailto:info@remen-abs.com?subject=REMEN_ABS 문의&body=안녕하세요,%0D%0A%0D%0AREMEN_ABS에 대한 문의사항이 있습니다.%0D%0A%0D%0A문의 내용:%0D%0A%0D%0A%0D%0A감사합니다."
+                    className="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer"
+                    title="info@remen-abs.com로 메일 보내기"
+                  >
+                    info@remen-abs.com
+                  </a>
                 </div>
               </div>
             </div>

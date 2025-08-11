@@ -30,7 +30,7 @@ const RefundPolicy: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-6xl font-bold mb-6"
           >
-            반품/환불/교환 정책
+            반품/환불/구매 정책
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -38,7 +38,7 @@ const RefundPolicy: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl text-orange-100 max-w-3xl mx-auto"
           >
-            고객 만족을 위한 명확한 반품/환불/교환 정책을 안내드립니다.
+            고객 만족을 위한 명확한 반품/환불/구매 정책을 안내드립니다.
           </motion.p>
         </div>
       </section>
@@ -97,11 +97,11 @@ const RefundPolicy: React.FC = () => {
               </div>
             </div>
 
-            {/* 반품/교환 절차 */}
+            {/* 반품/구매 절차 */}
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center">
                 <Package className="mr-3 text-orange-600" size={32} />
-                반품/교환 절차
+                반품/구매 절차
               </h2>
               <div className="bg-white rounded-lg shadow-lg p-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -198,43 +198,43 @@ const RefundPolicy: React.FC = () => {
               </div>
             </div>
 
-            {/* 교환 정책 */}
+            {/* 구매 정책 */}
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center">
                 <RefreshCw className="mr-3 text-orange-600" size={32} />
-                교환 정책
+                구매 정책
               </h2>
               <div className="bg-white rounded-lg shadow-lg p-8">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">교환 가능한 경우</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">구매 가능한 경우</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div className="bg-green-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-green-800 mb-2">교환 가능</h4>
+                                          <h4 className="font-semibold text-green-800 mb-2">구매 가능</h4>
                     <ul className="text-sm text-green-700 space-y-1">
                       <li>• 상품의 하자가 있는 경우</li>
                       <li>• 배송 중 상품이 파손된 경우</li>
                       <li>• 상품이 표시·광고와 다른 경우</li>
-                      <li>• 동일 상품으로의 교환</li>
+                      <li>• 동일 상품으로의 구매</li>
                     </ul>
                   </div>
                   
                   <div className="bg-red-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-red-800 mb-2">교환 불가</h4>
+                                          <h4 className="font-semibold text-red-800 mb-2">구매 불가</h4>
                     <ul className="text-sm text-red-700 space-y-1">
                       <li>• 사용으로 인한 상품 훼손</li>
                       <li>• 고객의 책임으로 상품 훼손</li>
                       <li>• 개봉 후 사용한 상품</li>
-                      <li>• 재고 부족으로 인한 교환 불가</li>
+                      <li>• 재고 부족으로 인한 구매 불가</li>
                     </ul>
                   </div>
                 </div>
                 
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">교환 절차</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">구매 절차</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="text-center">
                     <div className="bg-orange-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2">
                       <span className="text-orange-600 font-bold">1</span>
                     </div>
-                    <p className="text-sm text-gray-600">교환 신청</p>
+                                            <p className="text-sm text-gray-600">구매 신청</p>
                   </div>
                   <div className="text-center">
                     <div className="bg-orange-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2">
@@ -287,12 +287,12 @@ const RefundPolicy: React.FC = () => {
                   </div>
                   
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="font-semibold text-gray-800 mb-2">교환 관련 안내</h3>
+                    <h3 className="font-semibold text-gray-800 mb-2">구매 관련 안내</h3>
                     <ul className="text-sm text-gray-700 space-y-1">
-                      <li>• 교환은 동일 상품으로만 가능합니다.</li>
-                      <li>• 교환 상품의 재고 상황에 따라 처리가 지연될 수 있습니다.</li>
-                      <li>• 교환 상품이 품절인 경우 환불로 처리됩니다.</li>
-                      <li>• 교환 시 배송비는 상품 하자 시에만 회사가 부담합니다.</li>
+                      <li>• 구매는 동일 상품으로만 가능합니다.</li>
+                      <li>• 구매 상품의 재고 상황에 따라 처리가 지연될 수 있습니다.</li>
+                      <li>• 구매 상품이 품절인 경우 환불로 처리됩니다.</li>
+                      <li>• 구매 시 배송비는 상품 하자 시에만 회사가 부담합니다.</li>
                     </ul>
                   </div>
                 </div>
@@ -315,7 +315,7 @@ const RefundPolicy: React.FC = () => {
                   </div>
                   
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-4">반품/교환 주소</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">반품/구매 주소</h3>
                     <div className="space-y-2 text-gray-600">
                       <p><strong>주소:</strong> 인천광역시 남동구 청능대로340번길 24, 2층</p>
                       <p><strong>수령인:</strong> 동진테크 반품담당자</p>

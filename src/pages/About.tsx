@@ -219,8 +219,8 @@ const About: React.FC = () => {
               <div className="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
                 <Award size={40} className="text-blue-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">통신판매업 허가</h3>
-              <p className="text-gray-600">2024-서울강남-1234</p>
+              <h3 className="text-lg font-semibold mb-2">통신판매업 신고</h3>
+              <p className="text-gray-600">2025-인천남동구-1484</p>
             </motion.div>
 
             <motion.div
@@ -315,10 +315,15 @@ const About: React.FC = () => {
             >
               <Mail size={48} className="text-purple-600 mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-4">이메일</h3>
-              <p className="text-gray-600">
-                info@remen-abs.com<br />
-                support@dongjintech.com
-              </p>
+              <div className="text-gray-600">
+                <a 
+                  href="mailto:info@remen-abs.com?subject=REMEN_ABS 문의&body=안녕하세요,%0D%0A%0D%0AREMEN_ABS에 대한 문의사항이 있습니다.%0D%0A%0D%0A문의 내용:%0D%0A%0D%0A%0D%0A감사합니다."
+                  className="block hover:text-purple-600 transition-colors cursor-pointer"
+                  title="info@remen-abs.com로 메일 보내기"
+                >
+                  info@remen-abs.com
+                </a>
+              </div>
             </motion.div>
           </div>
         </div>
