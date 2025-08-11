@@ -111,6 +111,12 @@ jobs:
           projectId: remen-abs
           entryPoint: ./
 
+      - name: Install Firebase CLI
+        run: |
+          echo "Installing Firebase CLI..."
+          npm install -g firebase-tools
+          firebase --version
+
       - name: Deploy Firebase Functions
         run: |
           echo "Deploying Firebase Functions..."
