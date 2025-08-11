@@ -192,6 +192,15 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
   }, []);
 
+  // 통합 loadCart 함수 추가 (기존 코드와의 호환성을 위해)
+  const loadCart = useCallback(async () => {
+    if (user?.uid) {
+      await loadUserCart();
+    } else {
+      await loadGuestCart();
+    }
+  }, [user?.uid, loadUserCart, loadGuestCart]);
+
   // 사용자 변경 시 장바구니 로드 (함수 정의 후에 사용)
   useEffect(() => {
     if (user) {
