@@ -11,14 +11,43 @@ export function ensureCartId(): string {
 
 // API 래퍼
 async function api(path: string, body?: any) {
-  ensureCartId();
-  const res = await fetch(`/api/${path}`, {
-    method: "POST",
-    credentials: "include", // 쿠키 전송
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body || {})
-  });
-  return res.json();
+  const cartId = ensureCartId();
+  const requestBody = {
+    cartId,
+    ...body
+  };
+  
+  try {
+    const res = await fetch(`/api/${path}`, {
+      method: "POST",
+      credentials: "include", // 쿠키 전송
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestBody)
+    });
+    
+    // 응답이 JSON인지 확인
+    const contentType = res.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      // HTML 에러 페이지가 반환된 경우
+      if (res.status === 404) {
+        throw new Error('API endpoint not found. Please check if Firebase Functions are deployed.');
+      } else {
+        throw new Error(`Server returned ${res.status}: ${res.statusText}. Expected JSON response.`);
+      }
+    }
+    
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || `HTTP error! status: ${res.status}`);
+    }
+    
+    return res.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Network error occurred');
+  }
 }
 
 // 장바구니 API 함수들
