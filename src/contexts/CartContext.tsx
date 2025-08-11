@@ -154,7 +154,15 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       dispatch({ type: 'SET_LOADING', payload: true });
       dispatch({ type: 'SET_ERROR', payload: null });
       
-      const response = await cartService.loadCart();
+      let response;
+      if (user?.uid) {
+        // 회원일 때: userCarts에서 로드
+        response = await cartService.loadUserCart(user.uid);
+      } else {
+        // 게스트일 때: carts에서 로드
+        response = await cartService.loadGuestCart();
+      }
+      
       if (response.ok && response.cart) {
         const transformedData = cartService.transformCartData(response.cart);
         dispatch({ type: 'LOAD_CART', payload: transformedData.items });
@@ -167,7 +175,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
-  }, []);
+  }, [user?.uid]);
 
   // 장바구니에 아이템 추가
   const addToCart = useCallback(async (item: Omit<CartItem, 'quantity' | 'checked'>) => {
