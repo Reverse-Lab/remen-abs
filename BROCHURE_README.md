@@ -52,7 +52,7 @@
 1. `public/brochure-print.html` 파일 열기
 2. 다음 부분 수정:
    ```html
-   <div class="phone">📞 032-123-4567</div>
+   <div class="phone">📞 032-221-9182</div>
    <div class="email">info@remen-abs.com</div>
    <div class="contact-info">📍 인천광역시 [주소]</div>
    ```
@@ -74,4 +74,4 @@
 
 브로셔 관련 문의사항이 있으시면 연락주세요:
 - 이메일: info@remen-abs.com
-- 전화: 032-123-4567 
+- 전화: 032-221-9182 

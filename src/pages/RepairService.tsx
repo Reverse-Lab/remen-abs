@@ -529,7 +529,7 @@ const RepairService: React.FC = () => {
             <div className="bg-white rounded-lg p-6 shadow-md">
               <Phone className="w-8 h-8 text-blue-600 mx-auto mb-4" />
               <h3 className="text-lg font-semibold mb-2">전화 문의</h3>
-                                <p className="text-gray-600">010-9027-9182</p>
+                                <p className="text-gray-600">032-221-9182</p>
             </div>
             <div className="bg-white rounded-lg p-6 shadow-md">
               <MessageSquare className="w-8 h-8 text-blue-600 mx-auto mb-4" />

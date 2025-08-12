@@ -17,7 +17,7 @@ const BusinessRegistrationModal: React.FC<BusinessRegistrationModalProps> = ({ i
     representative: '오미숙',
     businessNumber: '121-26-72548', // 동진테크 실제 사업자등록번호
     address: '인천광역시 남동구 청능대로340번길 24, 2층 (고잔동)',
-    phone: '010-9027-9182',
+    phone: '032-221-9182',
     email: 'info@remen-abs.com',
     registrationDate: '2025-01-15',
     businessType: '통신판매업',

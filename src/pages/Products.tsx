@@ -406,11 +406,11 @@ const Products: React.FC = () => {
               수리 서비스 보기
             </button>
             <a
-              href="tel:010-9027-9182"
+                              href="tel:032-221-9182"
               className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition-colors flex items-center justify-center"
             >
               <Phone size={20} className="mr-2" />
-              010-9027-9182
+                              032-221-9182
             </a>
           </div>
         </div>

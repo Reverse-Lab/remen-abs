@@ -70,7 +70,7 @@ const Footer: React.FC = React.memo(() => {
                 </div>
                 <div className="flex items-center">
                   <Phone size={16} className="mr-2" />
-                  <span>010-9027-9182</span>
+                  <span>032-221-9182</span>
                 </div>
                 <div className="flex items-center">
                   <Mail size={16} className="mr-2" />

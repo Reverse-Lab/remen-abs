@@ -991,7 +991,7 @@ const ProductDetail: React.FC = () => {
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-blue-700">
                       <div>
-                                                  <p><strong>전화:</strong> 010-9027-9182</p>
+                                                  <p><strong>전화:</strong> 032-221-9182</p>
                                                   <p><strong>이메일:</strong> 
                           <a 
                             href="mailto:info@remen-abs.com?subject=REMEN_ABS 제품 문의&body=안녕하세요,%0D%0A%0D%0AREMEN_ABS 제품에 대한 문의사항이 있습니다.%0D%0A%0D%0A제품명: [제품명을 입력해주세요]%0D%0A문의 내용:%0D%0A%0D%0A%0D%0A감사합니다."

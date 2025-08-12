@@ -111,7 +111,7 @@ const RefundPolicy: React.FC = () => {
                     </div>
                     <h3 className="font-semibold text-gray-900 mb-2">반품 신청</h3>
                     <p className="text-sm text-gray-600">
-                      고객센터(010-9027-9182) 또는 이메일(info@remen-abs.com)로 반품 신청
+                      고객센터(032-221-9182) 또는 이메일(info@remen-abs.com)로 반품 신청
                     </p>
                   </div>
                   
@@ -307,7 +307,7 @@ const RefundPolicy: React.FC = () => {
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-4">고객센터</h3>
                     <div className="space-y-2 text-gray-600">
-                                              <p><strong>전화:</strong> 010-9027-9182</p>
+                                              <p><strong>전화:</strong> 032-221-9182</p>
                         <p><strong>이메일:</strong> info@remen-abs.com</p>
                       <p><strong>운영시간:</strong> 평일 09:00-18:00</p>
                       <p><strong>점심시간:</strong> 12:00-13:00</p>
@@ -319,7 +319,7 @@ const RefundPolicy: React.FC = () => {
                     <div className="space-y-2 text-gray-600">
                       <p><strong>주소:</strong> 인천광역시 남동구 청능대로340번길 24, 2층</p>
                       <p><strong>수령인:</strong> 동진테크 반품담당자</p>
-                                              <p><strong>연락처:</strong> 010-9027-9182</p>
+                                              <p><strong>연락처:</strong> 032-221-9182</p>
                     </div>
                   </div>
                 </div>

@@ -181,7 +181,7 @@ const Privacy: React.FC = () => {
               <ul className="space-y-2 text-gray-600">
                 <li>• 성명: 오미숙</li>
                 <li>• 직책: 대표이사</li>
-                <li>• 연락처: 010-9027-9182</li>
+                <li>• 연락처: 032-221-9182</li>
                 <li>• 이메일: info@remen-abs.com</li>
               </ul>
             </div>
@@ -202,7 +202,7 @@ const Privacy: React.FC = () => {
                 <li>• 개인정보 열람청구 접수·처리 부서</li>
                 <li>• 부서명: 개인정보보호팀</li>
                 <li>• 담당자: 오미숙</li>
-                <li>• 연락처: 010-9027-9182</li>
+                <li>• 연락처: 032-221-9182</li>
                 <li>• 이메일: info@remen-abs.com</li>
               </ul>
             </div>
