@@ -13,7 +13,8 @@ interface DisplayProduct {
   name: string;
   brand: string;
   model: string;
-  price: string;
+  price: number;           // string에서 number로 변경
+  priceFormatted: string;  // 새로 추가
   features: string[];
   image: string;
   rating: number;
@@ -54,7 +55,8 @@ const Products: React.FC = () => {
         name: product.name,
         brand: product.brand,
         model: product.model,
-        price: `${product.price.toLocaleString()}원`,
+        price: product.price,                    // 원본 숫자 유지
+        priceFormatted: `${product.price.toLocaleString()}원`, // 표시용 포맷
         features: product.features,
         image: '🚗', // 기본 이미지
         rating: product.rating,
@@ -256,7 +258,7 @@ const Products: React.FC = () => {
                     </div>
 
                     <div className="mb-4">
-                      <div className="text-2xl font-bold text-blue-600 mb-2">{product.price}</div>
+                      <div className="text-2xl font-bold text-blue-600 mb-2">{product.priceFormatted}</div>
                       {product.description && (
                         <p className="text-sm text-gray-600 mb-4">{product.description}</p>
                       )}
@@ -320,9 +322,12 @@ const Products: React.FC = () => {
                                   name: product.name,
                                   brand: product.brand,
                                   model: product.model,
-                                  price: parseInt(product.price.replace(/[^0-9]/g, '')),
+                                  price: product.price,  // 직접 숫자 사용
+                                  priceAtAdd: product.price,  // 추가
                                   imageUrl: product.imageUrl || '',
-                                  inStock: product.inStock
+                                  inStock: product.inStock,
+                                  addedAt: new Date().toISOString(),  // 추가
+                                  updatedAt: new Date().toISOString()  // 추가
                                 });
                               }}
                               className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center"
@@ -340,9 +345,12 @@ const Products: React.FC = () => {
                                 name: product.name,
                                 brand: product.brand,
                                 model: product.model,
-                                price: parseInt(product.price.replace(/[^0-9]/g, '')),
+                                price: product.price,  // 직접 숫자 사용
+                                priceAtAdd: product.price,  // 추가
                                 imageUrl: product.imageUrl || '',
-                                inStock: product.inStock
+                                inStock: product.inStock,
+                                addedAt: new Date().toISOString(),  // 추가
+                                updatedAt: new Date().toISOString()  // 추가
                               });
                               navigate('/checkout');
                             }}

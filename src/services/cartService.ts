@@ -68,20 +68,36 @@ export async function addToCart(item: {
   model?: string;
   imageUrl?: string;
   inStock?: boolean;
+  userId?: string; // 회원 여부 확인용
 }) {
   return api("addItem", item);
 }
 
-export async function updateCartItem(sku: string, qty?: number, checked?: boolean) {
-  return api("updateItem", { sku, qty, checked });
+export async function updateCartItem(sku: string, qty?: number, checked?: boolean, userId?: string) {
+  // 회원일 때는 userId를 cartId로 사용, 게스트일 때는 기존 cartId 사용
+  const cartId = userId || ensureCartId();
+  return api("updateItem", { sku, qty, checked, userId, cartId });
 }
 
-export async function removeFromCart(sku: string) {
-  return api("removeItem", { sku });
+export async function removeFromCart(sku: string, userId?: string) {
+  // 회원일 때는 userId를 cartId로 사용, 게스트일 때는 기존 cartId 사용
+  const cartId = userId || ensureCartId();
+  
+  // 디버깅 로그 추가
+  console.log('cartService.removeFromCart called with:', { sku, userId, cartId });
+  
+  const response = await api("removeItem", { sku, userId, cartId });
+  
+  // 응답 로그 추가
+  console.log('cartService.removeFromCart response:', response);
+  
+  return response;
 }
 
-export async function clearCart() {
-  return api("clearCart");
+export async function clearCart(userId?: string) {
+  // 회원일 때는 userId를 cartId로 사용, 게스트일 때는 기존 cartId 사용
+  const cartId = userId || ensureCartId();
+  return api("clearCart", { userId, cartId });
 }
 
 export async function mergeCartOnSignIn(userId: string) {
@@ -99,10 +115,13 @@ export function transformCartData(cartData: any) {
     brand: item.brand || 'Unknown Brand',
     model: item.model || 'Unknown Model',
     price: item.priceAtAdd || 0,
+    priceAtAdd: item.priceAtAdd || 0,
     imageUrl: item.imageUrl || '',
     quantity: item.qty || 1,
     inStock: item.inStock !== false,
-    checked: item.checked !== false
+    checked: item.checked !== false,
+    addedAt: item.addedAt || new Date().toISOString(),
+    updatedAt: item.updatedAt || new Date().toISOString()
   }));
 
   const totalItems = items.reduce((sum: number, item: any) => sum + item.quantity, 0);

@@ -549,8 +549,11 @@ const ProductDetail: React.FC = () => {
                           brand: product.brand,
                           model: product.model,
                           price: product.price,
+                          priceAtAdd: product.price,
                           imageUrl: product.imageUrl,
-                          inStock: product.inStock
+                          inStock: product.inStock,
+                          addedAt: new Date().toISOString(),
+                          updatedAt: new Date().toISOString()
                         })}
                         className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center"
                       >
@@ -568,8 +571,11 @@ const ProductDetail: React.FC = () => {
                           brand: product.brand,
                           model: product.model,
                           price: product.price,
+                          priceAtAdd: product.price,
                           imageUrl: product.imageUrl,
-                          inStock: product.inStock
+                          inStock: product.inStock,
+                          addedAt: new Date().toISOString(),
+                          updatedAt: new Date().toISOString()
                         });
                         // 바로 결제 페이지로 이동
                         navigate('/checkout');

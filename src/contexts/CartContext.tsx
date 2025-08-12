@@ -3,16 +3,19 @@ import { useAuth } from './AuthContext';
 import * as cartService from '../services/cartService';
 
 export interface CartItem {
-  id: string;
-  sku: string;
-  name: string;
-  brand: string;
-  model: string;
-  price: number;
-  imageUrl: string;
-  quantity: number;
-  inStock: boolean;
-  checked: boolean;
+  id: string;            // 제품 ID
+  sku: string;           // 제품 SKU
+  name: string;          // 제품명
+  brand: string;         // 브랜드
+  model: string;         // 모델
+  price: number;         // 현재 가격
+  priceAtAdd: number;    // 추가 시점 가격
+  imageUrl: string;      // 이미지 URL
+  quantity: number;      // 수량
+  inStock: boolean;      // 재고 상태
+  checked: boolean;      // 선택 상태
+  addedAt: string;       // 추가 시점
+  updatedAt: string;     // 업데이트 시점
 }
 
 interface CartState {
@@ -178,7 +181,16 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   }, [user?.uid]);
 
   // 장바구니에 아이템 추가
-  const addToCart = useCallback(async (item: Omit<CartItem, 'quantity' | 'checked'>) => {
+  const addToCart = useCallback(async (item: {
+    id: string;
+    sku: string;
+    name: string;
+    brand: string;
+    model: string;
+    price: number;
+    imageUrl: string;
+    inStock: boolean;
+  }) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
       
@@ -190,12 +202,24 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         brand: item.brand,
         model: item.model,
         imageUrl: item.imageUrl,
-        inStock: item.inStock
+        inStock: item.inStock,
+        userId: user?.uid || undefined, // 회원 여부 전달
       });
       
       if (response.ok) {
-        dispatch({ type: 'ADD_ITEM', payload: { ...item, quantity: 1, checked: true } });
-        await loadCart(); // 서버에서 최신 데이터 로드
+        // CartItem에 필요한 모든 속성 포함
+        dispatch({ 
+          type: 'ADD_ITEM', 
+          payload: { 
+            ...item, 
+            priceAtAdd: item.price,
+            quantity: 1, 
+            checked: true,
+            addedAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          } 
+        });
+        await loadCart();
       } else {
         throw new Error(response.error || 'Failed to add item to cart');
       }
@@ -203,7 +227,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       console.error('Failed to add item to cart:', error);
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to add item to cart' });
     }
-  }, [loadCart]);
+  }, [loadCart, user?.uid]);
 
   // 장바구니에서 아이템 제거
   const removeFromCart = useCallback(async (id: string) => {
@@ -213,10 +237,21 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       const item = state.items.find(item => item.id === id);
       if (!item) return;
       
-      const response = await cartService.removeFromCart(item.sku);
+      // 디버깅 로그 추가
+      console.log('Removing item:', { 
+        sku: item.sku, 
+        userId: user?.uid,
+        itemName: item.name 
+      });
+      
+      const response = await cartService.removeFromCart(item.sku, user?.uid);
+      
+      // 응답 로그 추가
+      console.log('Remove response:', response);
       
       if (response.ok) {
         dispatch({ type: 'REMOVE_ITEM', payload: id });
+        console.log('Item removed successfully from state');
       } else {
         throw new Error(response.error || 'Failed to remove item from cart');
       }
@@ -224,7 +259,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       console.error('Failed to remove item from cart:', error);
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to remove item from cart' });
     }
-  }, [state.items]);
+  }, [state.items, user?.uid]);
 
   // 수량 업데이트
   const updateQuantity = useCallback(async (id: string, quantity: number) => {
@@ -234,7 +269,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       const item = state.items.find(item => item.id === id);
       if (!item) return;
       
-      const response = await cartService.updateCartItem(item.sku, quantity);
+      const response = await cartService.updateCartItem(item.sku, quantity, undefined, user?.uid);
       
       if (response.ok) {
         if (quantity <= 0) {
@@ -249,7 +284,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       console.error('Failed to update quantity:', error);
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to update quantity' });
     }
-  }, [state.items]);
+  }, [state.items, user?.uid]);
 
   // 체크 상태 업데이트
   const updateChecked = useCallback(async (id: string, checked: boolean) => {
@@ -259,7 +294,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       const item = state.items.find(item => item.id === id);
       if (!item) return;
       
-      const response = await cartService.updateCartItem(item.sku, undefined, checked);
+      const response = await cartService.updateCartItem(item.sku, undefined, checked, user?.uid);
       
       if (response.ok) {
         dispatch({ type: 'UPDATE_CHECKED', payload: { id, checked } });
@@ -270,14 +305,14 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       console.error('Failed to update checked status:', error);
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to update checked status' });
     }
-  }, [state.items]);
+  }, [state.items, user?.uid]);
 
   // 장바구니 비우기
   const clearCart = useCallback(async () => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
       
-      const response = await cartService.clearCart();
+      const response = await cartService.clearCart(user?.uid);
       
       if (response.ok) {
         dispatch({ type: 'CLEAR_CART' });
@@ -288,7 +323,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       console.error('Failed to clear cart:', error);
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to clear cart' });
     }
-  }, []);
+  }, [user?.uid]);
 
   // 로그인 시 장바구니 병합
   const mergeCartOnSignIn = useCallback(async () => {

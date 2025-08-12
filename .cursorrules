@@ -38,7 +38,7 @@
 ### 스타일링
 - Tailwind CSS 클래스 우선 사용
 - 커스텀 CSS는 최소화
-- 반응형 디자인 (모바일 우선)
+- 반응형 디자인으로 단어 잘려서 줄바꿈 금지(모바일 우선)
 - Framer Motion 애니메이션 활용
 
 ### Firebase 통합
@@ -47,19 +47,6 @@
 - 에러 처리 및 로딩 상태 관리
 - 보안 규칙 준수
 
-## 파일 구조 규칙
-
-### 폴더 구조
-```
-src/
-├── components/     # 재사용 가능한 컴포넌트
-├── pages/         # 페이지 컴포넌트
-├── hooks/         # 커스텀 훅
-├── services/      # API 서비스 (Firebase)
-├── types/         # TypeScript 타입 정의
-├── utils/         # 유틸리티 함수
-└── styles/        # 글로벌 스타일
-```
 
 ### 네이밍 컨벤션
 - 변수/함수: camelCase
