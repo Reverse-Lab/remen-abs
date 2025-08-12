@@ -238,22 +238,6 @@ const Checkout: React.FC = () => {
           console.error('Error marking products as sold out:', error);
           // 제품 상태 변경 실패해도 주문은 완료되도록 함
         }
-
-        // 주문 확인 이메일 발송
-        try {
-          const orderDoc = await orderService.getOrder(orderId);
-          if (orderDoc) {
-            const emailSent = await orderService.sendOrderConfirmationEmail(orderDoc);
-            if (emailSent) {
-              console.log('Order confirmation email sent successfully');
-            } else {
-              console.warn('Failed to send order confirmation email');
-            }
-          }
-        } catch (error) {
-          console.error('Error sending order confirmation email:', error);
-          // 이메일 발송 실패해도 주문은 완료되도록 함
-        }
         
         // 주문 완료 페이지로 이동
         navigate('/order-complete', { state: { orderId } });
