@@ -1,25 +1,26 @@
-# REMEN_ABS - 고장 ABS 모듈 재생/수리 전문업체
+# REMEN_ABS - 고장 ABS 모듈 재생/수리 전문업체 + C1391 고장수리 전문
 # https://www.remen-abs.com
 # 최신 업데이트: 2024-12-19
+# C1391 고장수리 전문 서비스 추가
 
 # 모든 검색엔진 크롤러 허용
 User-agent: *
 Allow: /
 
-# Google 크롤러 최적화
+# Google 크롤러 최적화 (C1391 관련 콘텐츠 우선 크롤링)
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
 
-# Google 이미지 크롤러 허용
+# Google 이미지 크롤러 허용 (C1391 관련 이미지 최적화)
 User-agent: Googlebot-Image
 Allow: /
 
-# Bing 크롤러 허용
+# Bing 크롤러 허용 (C1391 키워드 최적화)
 User-agent: Bingbot
 Allow: /
 
-# Naver 크롤러 최적화 (서치어드바이저 등록용)
+# Naver 크롤러 최적화 (서치어드바이저 등록용 + C1391 키워드)
 User-agent: Yeti
 Allow: /
 Crawl-delay: 1
@@ -41,7 +42,7 @@ Allow: /
 User-agent: Daumoa
 Allow: /
 
-# 주요 서비스 페이지 크롤링 허용 (SEO 최적화)
+# 주요 서비스 페이지 크롤링 허용 (SEO 최적화 + C1391 전문 서비스)
 Allow: /products
 Allow: /repair-service
 Allow: /about
@@ -50,6 +51,16 @@ Allow: /privacy
 Allow: /terms
 Allow: /refund-policy
 
+# C1391 전문 서비스 관련 가상 페이지 크롤링 허용 (SEO 최적화)
+Allow: /c1391-repair
+Allow: /lexus-c1391
+
+# C1391 관련 콘텐츠 우선 크롤링 설정
+Allow: /*c1391*
+Allow: /*C1391*
+Allow: /*lexus*
+Allow: /*렉서스*
+
 # 관리자 페이지는 크롤링 제한
 Disallow: /admin
 Disallow: /checkout
@@ -57,8 +68,13 @@ Disallow: /order-complete
 Disallow: /order-history
 Disallow: /cart
 
-# Sitemap 위치 명시 (네이버 서치어드바이저 등록용)
+# Sitemap 위치 명시 (네이버 서치어드바이저 등록용 + C1391 최적화)
 Sitemap: https://www.remen-abs.com/sitemap.xml
 
-# 크롤링 간격 설정 (초)
+# 크롤링 간격 설정 (초) - C1391 관련 콘텐츠 우선 처리
 Crawl-delay: 1
+
+# 추가 메타데이터 (C1391 전문 서비스 강조)
+# C1391 고장수리 전문, 렉서스 C1391 DTC Error 수리
+# 고장 ABS 모듈 재생/수리 전문업체
+# 렉서스 ABS C1391 수리 전문

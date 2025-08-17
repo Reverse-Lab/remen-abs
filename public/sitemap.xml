@@ -1,27 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- 메인 페이지 (고장 ABS 관련 키워드 최적화) -->
+  <!-- 메인 페이지 (C1391 고장수리 전문 + 고장 ABS 관련 키워드 최적화) -->
   <url>
     <loc>https://www.remen-abs.com/</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+      <image:loc>https://www.remen-abs.com/android-icon-192x192.png</image:loc>
+      <image:title>C1391 고장수리 전문 | 렉서스 ABS C1391 DTC Error 수리</image:title>
+      <image:caption>고장 ABS 모듈 수리/재생 전문업체, C1391 고장수리 전문</image:caption>
+    </image:image>
   </url>
   
-  <!-- 수리 서비스 페이지 (고장 ABS 관련 키워드 최적화) -->
+  <!-- 수리 서비스 페이지 (C1391 전문 진단 및 수리 서비스) -->
   <url>
     <loc>https://www.remen-abs.com/repair-service</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <image:image xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+      <image:loc>https://www.remen-abs.com/android-icon-192x192.png</image:loc>
+      <image:title>C1391 전문 진단 및 수리 서비스</image:title>
+      <image:caption>렉서스 C1391 DTC Error 수리, 고장 ABS 모듈 전문 수리</image:caption>
+    </image:image>
   </url>
   
-  <!-- 제품 페이지 (ABS 모듈 수리 서비스) -->
+  <!-- 제품 페이지 (ABS 모듈 수리 서비스 + C1391 관련 제품) -->
   <url>
     <loc>https://www.remen-abs.com/products</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+      <image:loc>https://www.remen-abs.com/android-icon-192x192.png</image:loc>
+      <image:title>고장 ABS 모듈 제품 + C1391 수리 제품</image:title>
+      <image:caption>고장 ABS 모듈, C1391 수리 제품, 렉서스 ABS 전문</image:caption>
+    </image:image>
   </url>
   
   <!-- 회사 정보 페이지들 -->
@@ -30,12 +45,23 @@
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+      <image:loc>https://www.remen-abs.com/android-icon-192x192.png</image:loc>
+      <image:title>동진테크 - C1391 고장수리 전문 기술</image:title>
+      <image:caption>20년 이상의 재제조 전문 기술, C1391 고장수리 전문가</image:caption>
+    </image:image>
   </url>
+  
   <url>
     <loc>https://www.remen-abs.com/contact</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+      <image:loc>https://www.remen-abs.com/android-icon-192x192.png</image:loc>
+      <image:title>C1391 고장수리 전문 상담 문의</image:title>
+      <image:caption>C1391 고장수리 무료 상담, 고장 ABS 전문 상담</image:caption>
+    </image:image>
   </url>
   
   <!-- 정책 페이지들 -->
@@ -45,16 +71,43 @@
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
+  
   <url>
     <loc>https://www.remen-abs.com/terms</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
+  
   <url>
     <loc>https://www.remen-abs.com/refund-policy</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
+  </url>
+  
+  <!-- C1391 전문 서비스 관련 가상 페이지 (SEO 최적화용) -->
+  <url>
+    <loc>https://www.remen-abs.com/c1391-repair</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+      <image:loc>https://www.remen-abs.com/android-icon-192x192.png</image:loc>
+      <image:title>C1391 고장수리 전문 서비스</image:title>
+      <image:caption>렉서스 C1391 DTC Error 수리, C1391 고장수리 전문</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://www.remen-abs.com/lexus-c1391</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+      <image:loc>https://www.remen-abs.com/android-icon-192x192.png</image:loc>
+      <image:title>렉서스 C1391 DTC Error 수리 전문</image:title>
+      <image:caption>렉서스 C1391 고장수리, 렉서스 ABS C1391 수리</image:caption>
+    </image:image>
   </url>
 </urlset> 
