@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
+import { Send, Car, MessageSquare, CheckCircle } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { useNotifications } from '../contexts/NotificationContext';
 import { inquiryService } from '../services/firebaseService';
 import SEO from '../components/SEO';
 
@@ -14,10 +16,12 @@ interface ContactForm {
 }
 
 const Contact: React.FC = () => {
+  const { user, userProfile } = useAuth();
+  const { refreshNotifications } = useNotifications();
   const [formData, setFormData] = useState<ContactForm>({
-    name: '',
-    email: '',
-    phone: '',
+    name: userProfile?.name || '',
+    email: user?.email || '',
+    phone: '', // Phone is still part of the form data, but input is removed
     carBrand: '',
     carModel: '',
     message: ''
@@ -37,15 +41,23 @@ const Contact: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // 로그인 상태 확인
+    if (!user) {
+      setError('로그인이 필요합니다.');
+      return;
+    }
+    
     setIsSubmitting(true);
     setError('');
 
     try {
       // Firebase에 문의 데이터 저장
       await inquiryService.addInquiry({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
+        userId: user.uid,
+        name: userProfile?.name || '',
+        email: user.email || '',
+        phone: '',
         carBrand: formData.carBrand,
         carModel: formData.carModel,
         message: formData.message
@@ -53,13 +65,14 @@ const Contact: React.FC = () => {
 
       setIsSubmitted(true);
       setFormData({
-        name: '',
-        email: '',
+        name: userProfile?.name || '',
+        email: user?.email || '',
         phone: '',
         carBrand: '',
         carModel: '',
         message: ''
       });
+      refreshNotifications(); // 문의 제출 성공 후 알림 새로고침
     } catch (error) {
       console.error('Error submitting inquiry:', error);
       setError('문의 전송 중 오류가 발생했습니다. 다시 시도해주세요.');
@@ -133,7 +146,7 @@ const Contact: React.FC = () => {
               <div className="space-y-6">
                 <div className="flex items-start">
                   <div className="bg-blue-600 text-white rounded-full p-3 mr-4 flex-shrink-0">
-                    <Phone size={24} />
+                    <Car size={24} />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-2 break-words">전화</h3>
@@ -144,7 +157,7 @@ const Contact: React.FC = () => {
 
                 <div className="flex items-start">
                   <div className="bg-green-600 text-white rounded-full p-3 mr-4 flex-shrink-0">
-                    <Mail size={24} />
+                    <MessageSquare size={24} />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-2 break-words">이메일</h3>
@@ -161,7 +174,7 @@ const Contact: React.FC = () => {
 
                 <div className="flex items-start">
                   <div className="bg-yellow-600 text-white rounded-full p-3 mr-4 flex-shrink-0">
-                    <MapPin size={24} />
+                    <Car size={24} />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-2 break-words">주소</h3>
@@ -175,7 +188,7 @@ const Contact: React.FC = () => {
 
                 <div className="flex items-start">
                   <div className="bg-purple-600 text-white rounded-full p-3 mr-4 flex-shrink-0">
-                    <Clock size={24} />
+                    <Car size={24} />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-2 break-words">영업시간</h3>
@@ -238,56 +251,41 @@ const Contact: React.FC = () => {
                     문의 양식
                   </h2>
                   
+                  {/* 로그인 상태 확인 */}
+                  {!user ? (
+                    <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <Car size={20} className="text-yellow-600" />
+                        <div>
+                          <p className="text-yellow-800 font-medium">로그인이 필요합니다</p>
+                          <p className="text-yellow-700 text-sm">
+                            문의를 작성하려면 먼저 로그인해주세요.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <Car size={20} className="text-green-600" />
+                        <div>
+                          <p className="text-green-800 font-medium">로그인됨</p>
+                          <p className="text-green-700 text-sm">
+                            {userProfile?.name || user.email}님으로 문의를 작성합니다.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
                   {error && (
                     <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
                       {error}
                     </div>
                   )}
                   
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          이름 *
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          이메일 *
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        연락처 *
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
-
+                  <form onSubmit={handleSubmit} className="space-y-6" style={{ display: user ? 'block' : 'none' }}>
+                    
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -339,7 +337,7 @@ const Contact: React.FC = () => {
 
                     <button
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !user}
                       className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? (

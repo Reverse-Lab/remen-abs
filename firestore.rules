@@ -17,6 +17,11 @@ service cloud.firestore {
       allow write: if false; // 쓰기는 Cloud Functions만
     }
     
+    // analytics 컬렉션 (방문자 통계)
+    match /analytics/{documentId} {
+      allow read, write: if true; // 모든 사용자가 읽기/쓰기 가능
+    }
+    
     // 다른 컬렉션들
     match /{document=**} {
       allow read, write: if true;

@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import { OrderProvider } from './contexts/OrderContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import PageTracker from './components/PageTracker';
 import Home from './pages/Home';
 import About from './pages/About';
 import Products from './pages/Products';
@@ -20,6 +22,7 @@ import Terms from './pages/Terms';
 import RefundPolicy from './pages/RefundPolicy';
 import Admin from './pages/Admin';
 import RepairService from './pages/RepairService';
+import UserProfile from './pages/UserProfile';
 import './App.css';
 
 // 로딩 컴포넌트
@@ -84,6 +87,7 @@ const App: React.FC = React.memo(() => {
     { path: "/checkout", element: <Checkout /> },
     { path: "/order-complete", element: <OrderComplete /> },
     { path: "/order-history", element: <OrderHistory /> },
+    { path: "/profile", element: <UserProfile /> },
     { path: "/contact", element: <Contact /> },
     { path: "/privacy", element: <Privacy /> },
     { path: "/terms", element: <Terms /> },
@@ -98,24 +102,27 @@ const App: React.FC = React.memo(() => {
         <AuthProvider>
           <CartProvider>
             <OrderProvider>
-              <Router>
-                <ScrollToTop />
-                <div className="App">
-                  <Header />
-                  <main>
-                    <Routes>
-                      {routes.map((route) => (
-                        <Route
-                          key={route.path}
-                          path={route.path}
-                          element={route.element}
-                        />
-                      ))}
-                    </Routes>
-                  </main>
-                  <Footer />
-                </div>
-              </Router>
+              <NotificationProvider>
+                <Router>
+                  <ScrollToTop />
+                  <PageTracker />
+                  <div className="App">
+                    <Header />
+                    <main>
+                      <Routes>
+                        {routes.map((route) => (
+                          <Route
+                            key={route.path}
+                            path={route.path}
+                            element={route.element}
+                          />
+                        ))}
+                      </Routes>
+                    </main>
+                    <Footer />
+                  </div>
+                </Router>
+              </NotificationProvider>
             </OrderProvider>
           </CartProvider>
         </AuthProvider>

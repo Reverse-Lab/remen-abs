@@ -121,5 +121,5 @@ if (process.env.NODE_ENV === 'development' && app) {
   }
 }
 
-export { auth, db, storage, analytics };
+export { auth, db, storage, analytics, app };
 export default app; 

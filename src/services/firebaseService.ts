@@ -172,6 +172,7 @@ export const productService = {
 // 문의 관련 서비스
 export interface Inquiry {
   id?: string;
+  userId?: string; // 사용자 UID 추가
   name: string;
   email: string;
   phone: string;
@@ -179,6 +180,9 @@ export interface Inquiry {
   carModel: string;
   message: string;
   status: 'pending' | 'processing' | 'completed';
+  answer?: string;
+  answeredAt?: Timestamp;
+  isRead?: boolean; // 답변 확인 여부
   createdAt?: Timestamp;
 }
 
@@ -202,7 +206,116 @@ export const inquiryService = {
     }
   },
 
-  // 문의 추가
+  // 사용자별 문의 조회 (UID로 필터링)
+  async getUserInquiries(userId: string): Promise<Inquiry[]> {
+    try {
+      if (!db) {
+        console.error('Firestore not available');
+        return [];
+      }
+      
+      console.log('Fetching inquiries for userId:', userId);
+      
+      // 먼저 userId로만 필터링
+      const q = query(
+        collection(db, 'inquiries'), 
+        where('userId', '==', userId)
+      );
+      
+      const querySnapshot = await getDocs(q);
+      console.log('Query result count:', querySnapshot.size);
+      
+      const inquiries = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Inquiry[];
+      
+      // 클라이언트에서 날짜순 정렬 (Firestore 인덱스 문제 방지)
+      inquiries.sort((a, b) => {
+        if (!a.createdAt || !b.createdAt) return 0;
+        return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+      });
+      
+      console.log('Processed inquiries:', inquiries);
+      return inquiries;
+    } catch (error) {
+      console.error('Error fetching user inquiries:', error);
+      throw error;
+    }
+  },
+
+  // 사용자별 답변받은 문의 개수 조회
+  async getAnsweredInquiriesCount(userId: string): Promise<number> {
+    try {
+      if (!db) {
+        console.error('Firestore not available');
+        return 0;
+      }
+      
+      // userId로만 필터링 후 클라이언트에서 답변 여부 계산 (인덱스 이슈 회피)
+      const q = query(
+        collection(db, 'inquiries'), 
+        where('userId', '==', userId)
+      );
+      
+      const snapshot = await getDocs(q);
+      const count = snapshot.docs.reduce((acc, d) => {
+        const data = d.data() as any;
+        const isAnswered = !!data.answer || data.status === 'completed';
+        return acc + (isAnswered ? 1 : 0);
+      }, 0);
+      return count;
+    } catch (error) {
+      console.error('Error fetching answered inquiries count:', error);
+      return 0;
+    }
+  },
+
+  // 사용자별 미확인 답변 개수 조회
+  async getUnreadAnsweredCount(userId: string): Promise<number> {
+    try {
+      if (!db) {
+        console.error('Firestore not available');
+        return 0;
+      }
+      
+      // userId로만 필터링 후 클라이언트에서 미확인 답변 계산
+      const q = query(
+        collection(db, 'inquiries'), 
+        where('userId', '==', userId)
+      );
+      
+      const snapshot = await getDocs(q);
+      const count = snapshot.docs.reduce((acc, d) => {
+        const data = d.data() as any;
+        const isAnswered = !!data.answer || data.status === 'completed';
+        const isUnread = isAnswered && !data.isRead;
+        return acc + (isUnread ? 1 : 0);
+      }, 0);
+      return count;
+    } catch (error) {
+      console.error('Error fetching unread answered inquiries count:', error);
+      return 0;
+    }
+  },
+
+  // 답변을 읽음으로 표시
+  async markAnswerAsRead(inquiryId: string): Promise<void> {
+    try {
+      if (!db) {
+        throw new Error('Firestore not available');
+      }
+      const docRef = doc(db, 'inquiries', inquiryId);
+      await updateDoc(docRef, { 
+        isRead: true
+      });
+    } catch (error) {
+      console.error('Error marking answer as read:', error);
+      throw error;
+    }
+  },
+
+  // 문의 추가 (UID 포함)
   async addInquiry(inquiry: Omit<Inquiry, 'id' | 'status' | 'createdAt'>): Promise<string> {
     try {
       if (!db) {
@@ -230,6 +343,43 @@ export const inquiryService = {
       await updateDoc(docRef, { status });
     } catch (error) {
       console.error('Error updating inquiry status:', error);
+      throw error;
+    }
+  },
+
+  // 문의 답변 추가
+  async addAnswer(id: string, answer: string): Promise<void> {
+    try {
+      if (!db) {
+        throw new Error('Firestore not available');
+      }
+      const docRef = doc(db, 'inquiries', id);
+      await updateDoc(docRef, { 
+        answer,
+        answeredAt: Timestamp.now(),
+        status: 'completed',
+        isRead: false
+      });
+    } catch (error) {
+      console.error('Error adding answer:', error);
+      throw error;
+    }
+  },
+
+  // 문의 답변 수정
+  async updateAnswer(id: string, answer: string): Promise<void> {
+    try {
+      if (!db) {
+        throw new Error('Firestore not available');
+      }
+      const docRef = doc(db, 'inquiries', id);
+      await updateDoc(docRef, { 
+        answer,
+        answeredAt: Timestamp.now(),
+        isRead: false
+      });
+    } catch (error) {
+      console.error('Error updating answer:', error);
       throw error;
     }
   }

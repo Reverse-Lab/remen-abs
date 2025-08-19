@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, User, LogOut, ShoppingCart } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
+import { useNotifications } from '../contexts/NotificationContext';
 import AuthModal from './AuthModal';
 import CartIcon from './CartIcon';
 
@@ -12,6 +13,7 @@ const Header: React.FC = React.memo(() => {
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const { user, isAdmin, logout, loading } = useAuth();
   const { state: cartState } = useCart();
+  const { unreadAnsweredCount } = useNotifications();
   const navigate = useNavigate();
 
   const handleAuthClick = useCallback((mode: 'login' | 'register') => {
@@ -91,28 +93,37 @@ const Header: React.FC = React.memo(() => {
         className="mr-4 relative z-50 pointer-events-auto" 
       />
       
-      {/* Auth Buttons */}
-      {user ? (
-        <div className="flex items-center space-x-4 relative z-50" style={{ pointerEvents: 'auto', zIndex: 50 }}>
-          <span className="text-sm text-gray-600">
-            {user.email}
-          </span>
-          {isAdmin && (
-            <Link
-              to="/admin"
-              className="text-blue-600 hover:text-blue-800 transition-colors"
-            >
-              관리자
-            </Link>
-          )}
-          <button
-            onClick={handleLogout}
-            className="flex items-center space-x-1 text-gray-600 hover:text-red-600 transition-colors"
-          >
-            <LogOut size={16} />
-            <span>로그아웃</span>
-          </button>
-        </div>
+                {/* Auth Buttons */}
+          {user ? (
+            <div className="flex items-center space-x-4 relative z-50" style={{ pointerEvents: 'auto', zIndex: 50 }}>
+              <Link
+                to="/profile"
+                className="text-gray-700 hover:text-blue-600 transition-colors flex items-center space-x-1 relative"
+              >
+                <User size={16} />
+                <span>프로필</span>
+                {unreadAnsweredCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium animate-pulse">
+                    {unreadAnsweredCount}
+                  </span>
+                )}
+              </Link>
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className="text-blue-600 hover:text-blue-800 transition-colors"
+                >
+                  관리자
+                </Link>
+              )}
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-1 text-gray-600 hover:text-red-600 transition-colors"
+              >
+                <LogOut size={16} />
+                <span>로그아웃</span>
+              </button>
+            </div>
       ) : (
         <div className="flex items-center space-x-4 relative z-50" style={{ pointerEvents: 'auto', zIndex: 50 }}>
           <button
@@ -130,7 +141,7 @@ const Header: React.FC = React.memo(() => {
         </div>
       )}
     </nav>
-  ), [user, isAdmin, navigationLinks, handleNavigationClick, handleLogout, handleAuthClick]);
+  ), [user, isAdmin, navigationLinks, handleNavigationClick, handleLogout, handleAuthClick, unreadAnsweredCount]);
 
   // 로딩 중일 때는 기본 헤더만 표시
   if (loading) {
@@ -205,9 +216,19 @@ const Header: React.FC = React.memo(() => {
               {/* Mobile Auth Buttons */}
               {user ? (
                 <div className="px-3 py-2 space-y-2">
-                  <div className="text-sm text-gray-600">
-                    {user.email}
-                  </div>
+                  <Link
+                    to="/profile"
+                    className="block text-gray-700 hover:text-blue-600 transition-colors flex items-center space-x-2 relative"
+                    onClick={handleMenuClose}
+                  >
+                    <User size={16} />
+                    <span>프로필</span>
+                    {unreadAnsweredCount > 0 && (
+                      <span className="ml-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium animate-pulse">
+                        {unreadAnsweredCount}
+                      </span>
+                    )}
+                  </Link>
                   {isAdmin && (
                     <Link
                       to="/admin"
